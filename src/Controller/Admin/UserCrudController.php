@@ -13,10 +13,12 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\KeyValueStore;
 use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use EasyCorp\Bundle\EasyAdminBundle\Form\Type\FileUploadType;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
@@ -40,6 +42,7 @@ class UserCrudController extends AbstractCrudController
             ;
     }
     
+
     public function configureFields(string $pageName): iterable
     {
         return [
@@ -47,6 +50,12 @@ class UserCrudController extends AbstractCrudController
             TextField::new('name','Nom & Prénom'),
             //PasswordField::new('password','Mot de passe'),
             //TextField::new('password')->setFormType(PasswordType::class),
+            ImageField::new('imageUser','Votre image')
+            ->setBasePath('uploads/users/image/')
+            ->setUploadDir('public/uploads/users/image')
+            ->setFormType(FileUploadType::class)
+            ->setUploadedFileNamePattern('[randomhash].[extension]')
+            ->setRequired(false),
             EmailField::new('email','Email'),
             Field::new('password', 'New password')->onlyOnForms()
                 ->setFormType(RepeatedType::class)

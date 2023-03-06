@@ -16,43 +16,7 @@
 
     <body>
 
-    
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">Navbar</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavDropdown">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Demandes</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Contact</a>
-        </li>
-          {% if app.user %} 
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" 
-          aria-expanded="false"> {{app.user.name}}
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
-          </ul>
-        </li>
-
-         {% else %}
-             <a href="{{ path('app_login') }}">Connexion</a> | <a href="{{ path('app_register') }}">Inscription</a>
-         {% endif %}
-      </ul>
-    </div>
-  </div>
-</nav>
-
-
-
+ {% if app.user %} 
 
    <!-- Page Wrapper -->
     <div id="wrapper">
@@ -351,11 +315,12 @@
                         <div class="topbar-divider d-none d-sm-block"></div>
 
                         <!-- Nav Item - User Information -->
-                        <li class="nav-item dropdown">
+                        <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" 
-                          aria-expanded="false"> {{app.user.name}}
+                          aria-expanded="false"> 
+                         <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{app.user.name}}</span>
                           <img class="img-profile rounded-circle"
-                                    src="img/undraw_profile.svg">
+                                    src="/uploads/users/image/{{app.user.imageUser}}">
                             </a>
                             <!-- Dropdown - User Information -->                        
                           
@@ -363,20 +328,20 @@
                                 aria-labelledby="navbarDropdownMenuLink">
                                   <a class="dropdown-item" href="#">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Profile
+                                    Profil
                                 </a>
                                 <a class="dropdown-item" href="#">
                                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Settings
+                                    Paramètres
                                 </a>
                                 <a class="dropdown-item" href="#">
                                     <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Activity Log
+                                    Demandes
                                 </a>
                            <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                <a class="dropdown-item" href="{{ path('app_logout') }}" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout
+                                    Se déconnecter
                                 </a>
                           </div>
                         </li>
@@ -526,10 +491,14 @@
         </div>
     </div>
 
+ {% else %}
 
-
-        {% block body %}
+    {% block body %}
         {% endblock %}
+
+         {% endif %} 
+
+    
     </body>
 
 </html>
