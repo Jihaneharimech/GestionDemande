@@ -3,7 +3,7 @@
 namespace App\Form;
 
 use App\Entity\User;
-use App\Classe\Villes;
+use App\Entity\Villes;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -21,7 +21,12 @@ class RegistrationFormType extends AbstractType
         $builder
             ->add('email')
             ->add('name')
-            ->add('ville')
+            ->add('ville', EntityType::class, [
+                'label' => false,
+                'class' => Villes::class,
+                'choice_label' => 'nom',
+                 'expanded' => true
+            ])
             ->add('imageUser')
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,

@@ -35,8 +35,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $imageUser = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $ville = null;
+    #[ORM\ManyToOne(inversedBy: 'users')]
+    private ?Villes $ville = null;
 
     public function getId(): ?int
     {
@@ -132,15 +132,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getVille(): ?string
+    public function getVille(): ?Villes
     {
         return $this->ville;
     }
 
-    public function setVille(string $ville): self
+    public function setVille(?Villes $ville): self
     {
         $this->ville = $ville;
 
         return $this;
     }
+
 }

@@ -16,6 +16,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\KeyValueStore;
 use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use EasyCorp\Bundle\EasyAdminBundle\Form\Type\FileUploadType;
@@ -48,7 +49,8 @@ class UserCrudController extends AbstractCrudController
         return [
           
             TextField::new('name','Nom & Prénom'),
-            TextField::new('ville','Ville'),
+          
+            AssociationField::new('ville'),
             //PasswordField::new('password','Mot de passe'),
             //TextField::new('password')->setFormType(PasswordType::class),
             ImageField::new('imageUser','Votre image')
