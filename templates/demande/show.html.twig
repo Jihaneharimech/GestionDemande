@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Demande{% endblock %}
+
+{% block content %}
+    <h1>Demande</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ demande.id }}</td>
+            </tr>
+            <tr>
+                <th>NomClient</th>
+                <td>{{ demande.nomClient }}</td>
+            </tr>
+            <tr>
+                <th>Adresse</th>
+                <td>{{ demande.adresse }}</td>
+            </tr>
+            <tr>
+                <th>CodePostal</th>
+                <td>{{ demande.codePostal }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ demande.email }}</td>
+            </tr>
+            <tr>
+                <th>Telephone</th>
+                <td>{{ demande.telephone }}</td>
+            </tr>
+            <tr>
+                <th>DateDisponibilite</th>
+                <td>{{ demande.dateDisponibilite ? demande.dateDisponibilite|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>NbrAppareil</th>
+                <td>{{ demande.nbrAppareil }}</td>
+            </tr>
+            <tr>
+                <th>Statut</th>
+                <td>{{ demande.statut }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ demande.description }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ demande.createdAt ? demande.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_demande_index') }}">back to list</a>
+
+    <a href="{{ path('app_demande_edit', {'id': demande.id}) }}">edit</a>
+
+    {{ include('demande/_delete_form.html.twig') }}
+{% endblock %}

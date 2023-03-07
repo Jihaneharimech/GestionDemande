@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Les Demandes{% endblock %}
+
+{% block content %}
+<div class="container">
+<h1 class="h3 mb-2 text-gray-800">Les Demandes</h1>
+
+<div class="row justify-content-center mt-4">
+<div class="col-12">
+<div class="card shadow mb-4">
+<div class="table-responsive bg-white">
+    <table class="table mb-0">
+        <thead class="thead-d">
+            <tr>
+                <th>N° demande</th>
+                <th>Nom Client</th>
+                <th>Adresse</th>
+                <th>Ville</th>
+                <th>Code Postal</th>
+                <th>Email</th>
+                <th>Téléphone </th>
+                <th>Date installation</th>
+                <th>Nbr Appareil</th>
+                <th>Statut</th>
+                <th>Description</th>
+                <th>Date création</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody class="tbody-d">
+        {% for demande in demandes %}
+            <tr>
+                <td>{{ demande.id }}</td>
+                <td>{{ demande.nomClient }}</td>
+                <td>{{ demande.adresse }}</td>
+                <td>{{ demande.ville }}</td>
+                <td>{{ demande.codePostal }}</td>
+                <td>{{ demande.email }}</td>
+                <td>{{ demande.telephone }}</td>
+                <td>{{ demande.dateDisponibilite ? demande.dateDisponibilite|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ demande.nbrAppareil }}</td>
+                <td>{{ demande.statut }}</td>
+                <td>{{ demande.description }}</td>
+                <td>{{ demande.createdAt ? demande.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_demande_show', {'id': demande.id}) }}"><i class="fa-solid fa-eye"></i></a>
+                    <a href="{{ path('app_demande_edit', {'id': demande.id}) }}"><i class="fa-solid fa-pen"></i></a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="12">Aucun enregistrement trouvé</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+</div>
+    </div>
+</div>
+</div>  
+
+{% endblock %}

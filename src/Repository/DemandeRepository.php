@@ -40,6 +40,21 @@ class DemandeRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * @return Demande[] Returns an array of Demande objects
+     */
+    public function findByVille($ville): array
+    {
+        return $this->createQueryBuilder('d')
+            ->andWhere('d.ville = :ville')
+            ->setParameter('ville', $ville)
+            ->orderBy('d.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+
 //    /**
 //     * @return Demande[] Returns an array of Demande objects
 //     */
