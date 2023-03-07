@@ -32,9 +32,6 @@ class Demande
     #[ORM\Column]
     private ?\DateTimeImmutable $dateDisponibilite = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $typeAppareil = null;
-
     #[ORM\Column]
     private ?int $nbrAppareil = null;
 
@@ -46,6 +43,12 @@ class Demande
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
+
+    #[ORM\ManyToOne(inversedBy: 'demandes')]
+    private ?Villes $ville = null;
+
+    #[ORM\ManyToOne(inversedBy: 'demandes')]
+    private ?Appareil $typeAppareil = null;
 
     public function getId(): ?int
     {
@@ -124,18 +127,6 @@ class Demande
         return $this;
     }
 
-    public function getTypeAppareil(): ?string
-    {
-        return $this->typeAppareil;
-    }
-
-    public function setTypeAppareil(string $typeAppareil): self
-    {
-        $this->typeAppareil = $typeAppareil;
-
-        return $this;
-    }
-
     public function getNbrAppareil(): ?int
     {
         return $this->nbrAppareil;
@@ -180,6 +171,30 @@ class Demande
     public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getVille(): ?Villes
+    {
+        return $this->ville;
+    }
+
+    public function setVille(?Villes $ville): self
+    {
+        $this->ville = $ville;
+
+        return $this;
+    }
+
+    public function getTypeAppareil(): ?Appareil
+    {
+        return $this->typeAppareil;
+    }
+
+    public function setTypeAppareil(?Appareil $typeAppareil): self
+    {
+        $this->typeAppareil = $typeAppareil;
 
         return $this;
     }

@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\User;
 use App\Entity\Villes;
 use App\Entity\Demande;
+use App\Entity\Appareil;
 use App\Controller\Admin\UserCrudController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -49,5 +50,6 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-user', User::class);
         yield MenuItem::linkToCrud('Demandes', 'fas fa-list', Demande::class);
         yield MenuItem::linkToCrud('Villes', 'fas fa-map', Villes::class);
+        yield MenuItem::linkToCrud('Appareil', 'fas fa-camera', Appareil::class);
     }
 }
