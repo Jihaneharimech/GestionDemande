@@ -49,7 +49,6 @@ class UserCrudController extends AbstractCrudController
         return [
           
             TextField::new('name','Nom & Prénom'),
-          
             AssociationField::new('ville'),
             //PasswordField::new('password','Mot de passe'),
             //TextField::new('password')->setFormType(PasswordType::class),
@@ -71,6 +70,7 @@ class UserCrudController extends AbstractCrudController
         ];
     }
 
+    
     public function createNewFormBuilder(EntityDto $entityDto, KeyValueStore $formOptions, AdminContext $context): FormBuilderInterface
     {
         $formBuilder = parent::createNewFormBuilder($entityDto, $formOptions, $context);
