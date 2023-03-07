@@ -48,6 +48,7 @@ class UserCrudController extends AbstractCrudController
         return [
           
             TextField::new('name','Nom & Prénom'),
+            TextField::new('ville','Ville'),
             //PasswordField::new('password','Mot de passe'),
             //TextField::new('password')->setFormType(PasswordType::class),
             ImageField::new('imageUser','Votre image')
@@ -63,6 +64,7 @@ class UserCrudController extends AbstractCrudController
                     'type' => PasswordType::class,
                     'first_options' => ['label' => 'New password'],
                     'second_options' => ['label' => 'Repeat password'],
+                    'required' => false,
                 ]),
         ];
     }
