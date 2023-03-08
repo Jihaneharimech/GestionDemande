@@ -16,7 +16,7 @@
             <h5 class="my-3">{{ app.user.name}}</h5>
             <p class="text-muted mb-4">Installateur</p>
             <div class="d-flex justify-content-center mb-2">
-              <button type="button" class="btn btn-primary">Modifier votre mot de passe</button>
+              <a href="{{ path('app_profile_password') }}" class="btn btn-primary">Modifier votre mot de passe</a>
               <button type="button" class="btn btn-outline-primary ms-1">Message</button>
             </div>
           </div>
