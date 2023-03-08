@@ -11,7 +11,10 @@ use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
@@ -21,19 +24,45 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('email')
-            ->add('name')
+        ->add('name', TextType::class, [
+            'label' => false,
+            'attr' => [
+                'placeholder' => 'Nom & Prénom',
+                'class' => 'form-control form-control-user'
+            ]
+        ])
+            ->add('email', EmailType::class, [
+                'label' => false,
+                'attr' => [
+                    'placeholder' => 'Adresse Email',
+                    'class' => 'form-control form-control-user'
+                ]
+            ])
+            ->add('telephone', TelType::class, [
+                'label' => false,
+                'attr' => [
+                    'placeholder' => 'Téléphone',
+                    'class' => 'form-control form-control-user'
+                ]
+            ])
             ->add('ville', EntityType::class, [
                 'label' => 'Ville',
                 'class' => Villes::class,
                 'choice_label' => 'nom',
-                 'expanded' => false
+                 'expanded' => false,
+                 'attr' => [
+                    'class' => 'form-control form-control-user'
+                ]
             ])
             ->add('imageUser', FileType::class, [
                 'label' => 'Photo profil',
-                'mapped' => false
+                'mapped' => false,
+                'attr' => [
+                    'class' => 'form-control form-control-user'
+                ]
             ])
             ->add('agreeTerms', CheckboxType::class, [
+                'label' => 'Accepter les conditions',
                 'mapped' => false,
                 'constraints' => [
                     new IsTrue([
@@ -45,7 +74,7 @@ class RegistrationFormType extends AbstractType
                 'type' => PasswordType::class,
                 'invalid_message' => 'Le mot d passe et la confirmation doivent identique',
                 'options' => [
-                    'attr' => ['class' => 'password-field']
+                    'attr' => ['class' => 'form-control form-control-user']
                 ],
                 'required' => true,
                 'first_options'  => ['label' => 'Mot de passe'],

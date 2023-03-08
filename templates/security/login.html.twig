@@ -1,9 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}Connexion{% endblock %}
 
 {% block body %}
+{#
 <form method="post">
+
     {% if error %}
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
@@ -24,7 +26,7 @@
            value="{{ csrf_token('authenticate') }}"
     >
 
-    {#
+    
         Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
         See https://symfony.com/doc/current/security/remember_me.html
 
@@ -33,10 +35,77 @@
                 <input type="checkbox" name="_remember_me"> Remember me
             </label>
         </div>
-    #}
+    
 
     <button class="btn btn-lg btn-primary" type="submit">
         Sign in
     </button>
 </form>
+#}
+
+<div class="bg-gradient-primary">
+    <div class="container">
+
+        <!-- Outer Row -->
+        <div class="row justify-content-center">
+
+            <div class="col-xl-10 col-lg-12 col-md-9">
+
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <!-- Nested Row within Card Body -->
+                        <div class="row">
+                            <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+                            <div class="col-lg-6">
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <h1 class="h4 text-gray-900 mb-4">Espace Client</h1>
+                                        <h5 class="h5 mb-3 font-weight-normal">Si vous avez un compte, connectez-vous avec votre adresse email.</h5>
+                                    </div>
+
+                                    <form method="post" class="user">
+                                         {% if error %}
+                                        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                                         {% endif %}
+                                        {% if app.user %}
+                                            <div class="mb-3">
+                                                You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+                                            </div>
+                                        {% endif %}
+
+                                        <div class="form-group">
+                                            <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control form-control-user" autocomplete="email" placeholder="Adresse e-mail" required autofocus>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="password" name="password" id="inputPassword" class="form-control form-control-user" autocomplete="current-password" placeholder="Mot de passe" required>
+                                        </div>
+                                         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                                        <div class="form-group">
+                                            <div class="custom-control custom-checkbox small">
+                                                <input type="checkbox" class="custom-control-input" id="customCheck">
+                                                <label class="custom-control-label" for="customCheck">Remember
+                                                    Me</label>
+                                            </div>
+                                        </div>
+                                          <button class="btn btn-primary btn-user btn-block" type="submit">Se connecter</button>
+                                    </form>
+                                    <hr>
+                                    <div class="text-center">
+                                        <a class="small" href="{{ path('app_forgot_password_request') }}">Mot de passe oublié?</a>
+                                    </div>
+                                    <div class="text-center">
+                                        <a class="small" href="{{ path('app_register') }}">Créer un compte!</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+     </div>
+</div>
+
 {% endblock %}
