@@ -37,7 +37,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item">
-                <a class="nav-link" href="{{ path('app_home') }}">
+                <a class="nav-link" href="{{ path('app_demande_index') }}">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Tableau de bord</span></a>
             </li>
@@ -52,8 +52,8 @@
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item active">
-                <a class="nav-link" href="{{ path('app_demande_index') }}" data-toggle="collapse" aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-cog"></i>
+                <a class="nav-link" href="{{ path('app_demande_index') }}" >
+                    <i class="fas fa-fw fa-table"></i>
                     <span>Les Demandes</span>
                 </a>
             </li>
@@ -82,28 +82,16 @@
 
             <!-- Heading -->
             <div class="sidebar-heading">
-                Addons
+                Compte
             </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
-                    aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span>Pages</span>
+                <a class="nav-link collapsed" href="{{ path('app_profile') }}">
+                    <i class="fas fa-user"></i>
+                    <span>Mon Profil</span>
                 </a>
-                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Login Screens:</h6>
-                        <a class="collapse-item" href="login.html">Login</a>
-                        <a class="collapse-item" href="register.html">Register</a>
-                        <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
-                        <div class="collapse-divider"></div>
-                        <h6 class="collapse-header">Other Pages:</h6>
-                        <a class="collapse-item" href="404.html">404 Page</a>
-                        <a class="collapse-item" href="blank.html">Blank Page</a>
-                    </div>
-                </div>
+
             </li>
 
             <!-- Nav Item - Charts -->
@@ -113,11 +101,16 @@
                     <span>Charts</span></a>
             </li>
 
-            <!-- Nav Item - Tables -->
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Contact
+            </div>
+
+            <!-- Nav Item - Nos contacter -->
             <li class="nav-item">
-                <a class="nav-link" href="tables.html">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Tables</span></a>
+                <a class="nav-link" href="#">
+                    <i class="fas fa-comments"></i>
+                    <span>Nos Contacter</span></a>
             </li>
 
             <!-- Divider -->
@@ -318,7 +311,7 @@
                           <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="navbarDropdownMenuLink">
 
-                                  <a class="dropdown-item" href="#">
+                                  <a class="dropdown-item" href="{{ path('app_profile') }}">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profil
                                 </a>
@@ -326,7 +319,7 @@
                                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Paramètres
                                 </a>
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="{{ path('app_demande_index') }}">
                                     <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Demandes
                                 </a>
@@ -354,7 +347,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2020</span>
+                        <span>Copyright &copy; QuickInstall 2023</span>
                     </div>
                 </div>
             </footer>
