@@ -35,9 +35,6 @@ class Demande
     #[ORM\Column]
     private ?int $nbrAppareil = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $statut = null;
-
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
@@ -49,6 +46,9 @@ class Demande
 
     #[ORM\ManyToOne(inversedBy: 'demandes')]
     private ?Appareil $typeAppareil = null;
+
+    #[ORM\ManyToOne(inversedBy: 'demandes')]
+    private ?Statut $statut = null;
 
     public function getId(): ?int
     {
@@ -139,18 +139,6 @@ class Demande
         return $this;
     }
 
-    public function getStatut(): ?string
-    {
-        return $this->statut;
-    }
-
-    public function setStatut(string $statut): self
-    {
-        $this->statut = $statut;
-
-        return $this;
-    }
-
     public function getDescription(): ?string
     {
         return $this->description;
@@ -195,6 +183,18 @@ class Demande
     public function setTypeAppareil(?Appareil $typeAppareil): self
     {
         $this->typeAppareil = $typeAppareil;
+
+        return $this;
+    }
+
+    public function getStatut(): ?statut
+    {
+        return $this->statut;
+    }
+
+    public function setStatut(?statut $statut): self
+    {
+        $this->statut = $statut;
 
         return $this;
     }

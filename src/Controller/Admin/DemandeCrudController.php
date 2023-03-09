@@ -23,7 +23,7 @@ class DemandeCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id'),
+            IdField::new('id')->hideOnForm(),
             TextField::new('nomClient','Nom Client'),
             EmailField::new('email','Email'),
             TelephoneField::new('telephone'),
@@ -33,7 +33,7 @@ class DemandeCrudController extends AbstractCrudController
             AssociationField::new('typeAppareil','Appareil installé'),
             IntegerField::new('nbrAppareil','Nombre Appareil'),
             DateTimeField::new('dateDisponibilite','Date instalation'),
-            TextField::new('statut'),
+            AssociationField::new('statut','Statut'),
             TextEditorField::new('description','Description'),
             DateTimeField::new('createdAt', 'Passée le'),
         ];

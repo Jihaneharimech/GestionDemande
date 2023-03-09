@@ -14,18 +14,30 @@
     <div class="container py-2">
      <h1>Demande N°{{ demande.id }}</h1>
      <div class="row mt-4">
-        <div class="col-sm-12 col-md-6">
+        <div class="col-sm-8 col-md-8">
         <div class="dataTables_length" id="dataTable_length"><label><span class="colortitle">Statut</span>
-        <select name="dataTable_length" aria-controls="dataTable" class="custom-select custom-select-sm form-control form-control-sm">
-        <option value="10"> à faire </option><option value="25"> in progress </option>
-        <option value="50"> Terminé </option>
-        </select></label>
+
+        {{ form_start(form) }}
+           {# {{ form_row(form.statut , {'attr': {'style': 'background-color : '~ demande.statut.color   }}) }}#}
+           <div class="row">
+            <div class="col-8">
+            {{ form_row(form.statut) }}
+            </div>
+            <div class="col-2">
+            <button class="btn"> <img  class="cart-icon" src="{{ asset('assets/imagesTemplete/valideicon.png') }}">{{ button_label|default('') }}</button>        
+            </div>
+            </div>
+       {{ form_end(form) }}       
+        </label>
         </div>
         </div>
-        <div class="col-sm-12 col-md-6">
-        <div id="dataTable_filter" class="dataTables_filter">
-        <label><span class="colortitle">Date création</span><p class="text-muted mb-0">{{ demande.dateDisponibilite ? demande.dateDisponibilite|date('Y-m-d H:i:s') : '' }}</p>
-        </label></div></div></div>
+          <div class="col-sm-4 col-md-4">
+            <div id="dataTable_filter" class="dataTables_filter">
+                <label><span class="colortitle">Date création</span><p class="text-muted mb-0">{{ demande.dateDisponibilite ? demande.dateDisponibilite|date('Y-m-d H:i:s') : '' }}</p>
+                </label>
+            </div>
+            </div>
+        </div>
 
 
     <div class="row">
@@ -109,7 +121,7 @@
                 <p class="mb-0 colortitle">Description</p>
               </div>
               <div class="col-sm-9">
-                <p class="text-muted mb-0">{{ demande.description }}</p>
+                <p class="text-muted mb-0">{{ demande.description |raw}}</p>
               </div>
             </div>        
           </div>

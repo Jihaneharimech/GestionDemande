@@ -3,12 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Demande;
+use App\Form\StatutType;
 use App\Form\DemandeType;
 use App\Repository\DemandeRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/demande')]
 class DemandeController extends AbstractController
@@ -44,11 +45,20 @@ class DemandeController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_demande_show', methods: ['GET'])]
-    public function show(Demande $demande): Response
+    #[Route('/{id}', name: 'app_demande_show', methods: ['GET', 'POST'])]
+    public function show(Request $request, Demande $demande, DemandeRepository $demandeRepository): Response
     {
+        $form = $this->createForm(StatutType::class, $demande);
+        $form->handleRequest($request);
+        $statut = $form->get('statut')->getData();
+        if ($form->isSubmitted() && $form->isValid()) {
+            $demande->setStatut($statut);
+            $demandeRepository->save($demande, true); 
+        }
+
         return $this->render('demande/show.html.twig', [
             'demande' => $demande,
+            'form' => $form,
         ]);
     }
 

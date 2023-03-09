@@ -9,27 +9,23 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class DemandeType extends AbstractType
+class StatutType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('nomClient')
-            ->add('adresse')
-            ->add('codePostal')
-            ->add('email')
-            ->add('telephone')
-            ->add('dateDisponibilite')
-            ->add('nbrAppareil')
-            ->add('statut')
-            ->add('description')
-            ->add('createdAt')
-            ->add('ville')
-            ->add('typeAppareil')
+            ->add('statut', EntityType::class, [
+                'label' => false,
+                'class' => Statut::class,
+                'choice_label' => 'nom',
+                 'expanded' => false,
+                 'attr' => [
+                    'class' => 'form-control form-control-user'
+                ]
+            ])
         ;
     }
 
-    
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
