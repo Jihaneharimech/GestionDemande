@@ -50,32 +50,36 @@
                 Interface
             </div>
 
-            <!-- Nav Item - Pages Collapse Menu -->
+            <!-- Nav Item - Pages Collapse Menu for ROLE_USER -->
+            {% set nb_role = app.user.getRoles()|length %}
+            {% if (app.user.isUser()) and (nb_role < 2) %}
             <li class="nav-item active">
                 <a class="nav-link" href="{{ path('app_demande_index') }}" >
                     <i class="fas fa-fw fa-table"></i>
                     <span>Les Demandes</span>
                 </a>
             </li>
+            {% endif %}
 
-            <!-- Nav Item - Utilities Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-                    aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-fw fa-wrench"></i>
-                    <span>Utilities</span>
+            <!-- Nav Item - Utilities Collapse Menu for ROLE_MANAGER -->
+            {% if app.user.isManager() %}
+            <li class="nav-item active">
+                    <a class="nav-link collapsed" data-bs-toggle="collapse" href="#collapseDemande" role="button"
+                     aria-expanded="false" aria-controls="collapseDemande">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Les Demandes</span>
                 </a>
-                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
+                <div id="collapseDemande" class="collapse" aria-labelledby="headingUtilities"
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Utilities:</h6>
-                        <a class="collapse-item" href="utilities-color.html">Colors</a>
+                        <h6 class="collapse-header">Demandes</h6>
+                         <a class="collapse-item" href="utilities-color.html">List Demandes</a>
+                        <a class="collapse-item" href="utilities-color.html">Ajouter Demande</a>
                         <a class="collapse-item" href="utilities-border.html">Borders</a>
-                        <a class="collapse-item" href="utilities-animation.html">Animations</a>
-                        <a class="collapse-item" href="utilities-other.html">Other</a>
                     </div>
                 </div>
             </li>
+            {% endif %}
 
             <!-- Divider -->
             <hr class="sidebar-divider">
