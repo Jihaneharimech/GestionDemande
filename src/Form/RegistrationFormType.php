@@ -15,6 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
@@ -24,13 +25,13 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-        ->add('name', TextType::class, [
-            'label' => false,
-            'attr' => [
-                'placeholder' => 'Nom & Prénom',
-                'class' => 'form-control form-control-user'
-            ]
-        ])
+            ->add('name', TextType::class, [
+                'label' => false,
+                'attr' => [
+                    'placeholder' => 'Nom & Prénom',
+                    'class' => 'form-control form-control-user'
+                ]
+            ])
             ->add('email', EmailType::class, [
                 'label' => false,
                 'attr' => [
@@ -45,6 +46,17 @@ class RegistrationFormType extends AbstractType
                     'class' => 'form-control form-control-user'
                 ]
             ])
+            ->add('roleUser', ChoiceType::class, [
+                'mapped' => false,
+                'label' => 'Type Compte',
+                'choices'  => [
+                    'Installateur' => 'ROLE_USER',
+                    'Manager' => 'ROLE_MANAGER',
+                ],
+                'attr' => [
+                    'class' => 'form-control form-control-user'
+                ]
+            ])
             ->add('ville', EntityType::class, [
                 'label' => 'Ville',
                 'class' => Villes::class,
@@ -55,6 +67,7 @@ class RegistrationFormType extends AbstractType
                 ]
             ])
             ->add('imageUser', FileType::class, [
+                'required' => false,
                 'label' => 'Photo profil',
                 'mapped' => false,
                 'attr' => [

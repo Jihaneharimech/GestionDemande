@@ -14,3 +14,35 @@
 .cart-icon{
     height: 2em;
 }
+svg.svg-inline--fa.fa-check {
+    stroke: #aeacb0;
+    stroke-width: 2px;
+    width: 12px;
+    height: 12px;
+}
+button.btn.btncheck{
+    transition: all .2s cubic-bezier(.785,.135,.15,.86) 0s;
+    height: 26px;
+    width: 26px;
+    border: 1px solid #040f39;
+    border-radius: 4px;
+    margin-left: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.btnstatut{
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-size: 12px;
+    border-style: none;
+    font-weight: 500;
+    line-height: 1;
+    height: 30px;
+    padding: 0 15px;
+    text-transform: uppercase;
+    color: #fff;
+    -webkit-user-select: none;
+    border-radius: 3px 0 0 3px;
+    transform: scale(.95);
+}

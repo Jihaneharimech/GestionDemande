@@ -46,9 +46,23 @@ class AppUserAuthenticator extends AbstractLoginFormAuthenticator
             return new RedirectResponse($targetPath);
         }
 
+      /*  $nb_role = count($token->getUser()->getRoles());
+        if ($nb_role > 1) {
+            return new RedirectResponse($this->urlGenerator->generate('admin'));
+        }else{
+            return new RedirectResponse($this->urlGenerator->generate('app_demande_index'));
+        }*/
+
+        if($token->getUser()->isAdmin())
+        {
+            return new RedirectResponse($this->urlGenerator->generate('admin'));
+        }else{
+            return new RedirectResponse($this->urlGenerator->generate('app_demande_index'));
+        }
+
         // For example:
         // return new RedirectResponse($this->urlGenerator->generate('some_route'));
-          return new RedirectResponse($this->urlGenerator->generate('app_demande_index'));
+        //return new RedirectResponse($this->urlGenerator->generate('app_demande_index'));
         throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
     }
 

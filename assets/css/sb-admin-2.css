@@ -11278,3 +11278,18 @@ footer.sticky-footer .copyright {
 body.sidebar-toggled footer.sticky-footer {
   width: 100%;
 }
+.statutstyle{
+    font-size: 12px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1;
+    height: 30px;
+    padding: 0 15px;
+    text-transform: uppercase;
+    color: #fff;
+    -webkit-user-select: none;
+    border-radius: 3px 0 0 3px;
+    transform: scale(.95);
+}

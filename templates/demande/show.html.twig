@@ -19,12 +19,13 @@
 
         {{ form_start(form) }}
            {# {{ form_row(form.statut , {'attr': {'style': 'background-color : '~ demande.statut.color   }}) }}#}
-           <div class="row">
-            <div class="col-8">
-            {{ form_row(form.statut) }}
+           <div class="row" style="display: flex;align-items: center;">
+            <div class="col-8" >
+            {{ form_row(form.statut , {'attr': {'class':'btnstatut','style': 'background-color : '~ demande.statut.color  }}) }}
             </div>
-            <div class="col-2">
-            <button class="btn"> <img  class="cart-icon" src="{{ asset('assets/imagesTemplete/valideicon.png') }}">{{ button_label|default('') }}</button>        
+            <div class="col-2" style="margin-left: -10%;">
+            <button class="btn btncheck"><i class="fa-solid fa-check"></i>
+                {{ button_label|default('') }}</button>        
             </div>
             </div>
        {{ form_end(form) }}       
@@ -33,12 +34,11 @@
         </div>
           <div class="col-sm-4 col-md-4">
             <div id="dataTable_filter" class="dataTables_filter">
-                <label><span class="colortitle">Date création</span><p class="text-muted mb-0">{{ demande.dateDisponibilite ? demande.dateDisponibilite|date('Y-m-d H:i:s') : '' }}</p>
+                <label><span class="colortitle">Créé</span><p class="text-muted mb-0" style="font-size: 12px;">{{ demande.dateDisponibilite ? demande.dateDisponibilite|date('Y-m-d H:i:s') : '' }}</p>
                 </label>
             </div>
             </div>
         </div>
-
 
     <div class="row">
       <div class="col-lg-12">

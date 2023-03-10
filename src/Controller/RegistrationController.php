@@ -29,14 +29,21 @@ class RegistrationController extends AbstractController
 
             /** @var UploadedFile $uploadedFile */
             $uploadedFile = $form['imageUser']->getData();
-            $destination = $this->getParameter('kernel.project_dir').'/public/uploads/users/image';
-            $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
-            $newFilename = Urlizer::urlize($originalFilename).'-'.uniqid().'.'.$uploadedFile->guessExtension();
-            $uploadedFile->move(
-                $destination,
-                $newFilename
-            );
-            $user->setImageUser($newFilename);
+            if($uploadedFile == null)
+            {
+               $urlPhotoAnonyme='anonymUser.jpg';
+               $user->setImageUser($urlPhotoAnonyme);
+            }else{
+                $uploadedFile = $form['imageUser']->getData();
+                $destination = $this->getParameter('kernel.project_dir').'/public/uploads/users/image';
+                $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $newFilename = Urlizer::urlize($originalFilename).'-'.uniqid().'.'.$uploadedFile->guessExtension();
+                $uploadedFile->move(
+                    $destination,
+                    $newFilename
+                );
+                     $user->setImageUser($newFilename);                 
+            }
 
             // encode the password
             $user->setPassword(
@@ -45,6 +52,10 @@ class RegistrationController extends AbstractController
                     $form->get('password')->getData()
                 )
             );
+
+            $roleUser =$form->get('roleUser')->getData();
+            $arrayrole = [$roleUser];
+            $user->setRoles($arrayrole);
 
             $entityManager->persist($user);
             $entityManager->flush();
