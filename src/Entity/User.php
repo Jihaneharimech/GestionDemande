@@ -13,6 +13,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     const ROLE_ADMIN = 'ROLE_ADMIN';
+    const ROLE_MANAGER = 'ROLE_MANAGER';
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -164,5 +165,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function isAdmin(): bool 
     {
         return in_array(self::ROLE_ADMIN,  $this->getRoles());
+    }
+
+    public function isManager(): bool 
+    {
+        return in_array(self::ROLE_MANAGER,  $this->getRoles());
     }
 }

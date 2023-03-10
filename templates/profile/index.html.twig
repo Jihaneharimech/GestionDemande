@@ -14,7 +14,12 @@
             <img src="/uploads/users/image/{{app.user.imageUser}}" alt="avatar"
               class="rounded-circle img-fluid" style="width: 150px;">
             <h5 class="my-3">{{ app.user.name}}</h5>
-            <p class="text-muted mb-4">Installateur</p>
+              {% if app.user.isManager() %}
+                  <p class="text-muted mb-4 font-weight-bold">Manage</p>
+                  {% elseif ( app.user.isManager() == false) %}
+                  <p class="text-muted mb-4 font-weight-bold">Installateur</p>
+              {% endif %}
+
             <div class="d-flex justify-content-center mb-2">
               <a href="{{ path('app_profile_password') }}" class="btn btn-primary">Modifier votre mot de passe</a>
               <button type="button" class="btn btn-outline-primary ms-1">Message</button>
