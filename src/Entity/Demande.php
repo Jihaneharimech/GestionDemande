@@ -50,6 +50,9 @@ class Demande
     #[ORM\ManyToOne(inversedBy: 'demandes')]
     private ?Statut $statut = null;
 
+    #[ORM\ManyToOne(inversedBy: 'demandes')]
+    private ?User $manager = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -195,6 +198,18 @@ class Demande
     public function setStatut(?statut $statut): self
     {
         $this->statut = $statut;
+
+        return $this;
+    }
+
+    public function getManager(): ?User
+    {
+        return $this->manager;
+    }
+
+    public function setManager(?User $manager): self
+    {
+        $this->manager = $manager;
 
         return $this;
     }

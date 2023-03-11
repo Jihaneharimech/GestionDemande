@@ -42,7 +42,26 @@ button.btn.btncheck{
     padding: 0 15px;
     text-transform: uppercase;
     color: #fff;
-    -webkit-user-select: none;
     border-radius: 3px 0 0 3px;
     transform: scale(.95);
+}
+.btnAnnul{
+    background-color: #36b9cc;
+    border: none;
+    color: white;
+    padding: 10px 27px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+}
+.btnAdd{
+    background-color: #4e73df;
+    border: none;
+    color: white;
+    padding: 10px 27px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
 }

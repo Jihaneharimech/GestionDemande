@@ -1,4 +1,21 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+    <div class="mt-4">{{ form_row(form.nomClient) }}</div>
+    <div class="mt-4">{{ form_row(form.email) }}</div>
+    <div class="mt-4">{{ form_row(form.telephone) }}</div>
+    <div class="mt-4">{{ form_row(form.adresse) }}</div>
+    <div class="mt-4">{{ form_row(form.codePostal) }}</div>
+    <div class="mt-4">{{ form_row(form.ville) }}</div>
+    <div class="mt-4">{{ form_row(form.typeAppareil) }}</div>
+    <div class="mt-4">{{ form_row(form.nbrAppareil) }}</div>
+    <div class="mt-4">{{ form_row(form.dateDisponibilite) }}</div>
+    <div class="mt-4">{{ form_row(form.description) }}</div>
+
+    <div class="row mt-4">
+        <div class="col-2">
+        <button class="btnAdd">{{ button_label|default('Ajouter') }}</button>
+        </div>
+        <div class="col-8">
+        <a class="btnAnnul" href="{{ path('app_demande_index') }}">Annuler</a>
+        </div>
+    </div>
 {{ form_end(form) }}
