@@ -56,7 +56,8 @@ class DemandeController extends AbstractController
         }
 
         if ($form->isSubmitted() && $form->isValid()) {       
-            $demandeRepository->save($demande, true);      
+            $demandeRepository->save($demande, true); 
+            $this->addFlash('notice', 'Votre demande a été enregistrée');     
             return $this->redirectToRoute('app_demande_index', [], Response::HTTP_SEE_OTHER);
         }
 
