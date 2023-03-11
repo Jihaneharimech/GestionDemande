@@ -49,7 +49,9 @@
                 <td>{{ demande.createdAt ? demande.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
                     <a href="{{ path('app_demande_show', {'id': demande.id}) }}"><i class="fa-solid fa-eye"></i></a>
+                        {% if app.user.isManager() %}
                     <a href="{{ path('app_demande_edit', {'id': demande.id}) }}"><i class="fa-solid fa-pen"></i></a>
+                        {% endif %}
                 </td>
             </tr>
         {% else %}
