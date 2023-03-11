@@ -26,10 +26,18 @@ class DemandeController extends AbstractController
     #[Route('/', name: 'app_demande_index', methods: ['GET'])]
     public function index(DemandeRepository $demandeRepository): Response
     {
-        //recuperer ID_ville de User
-        $idville = $this->getUser()->getVille()->getId();
-        $demandes = $demandeRepository->findByVille($idville);
-
+        if($this->getUser()->isManager())
+        { 
+            //['ROLE_MANAGER'] Affichier les demandes par user
+            $idManager = $this->getUser()->getId();
+            $demandes = $demandeRepository->findByIdUser($idManager);
+        }else
+        {
+            //['ROLE_USER'] Recuperer ID_ville de User et affichier les demandes par idVille
+            $idville = $this->getUser()->getVille()->getId();
+            $demandes = $demandeRepository->findByVille($idville);
+        }
+     
         return $this->render('demande/index.html.twig', [
             'demandes' => $demandes,
         ]);

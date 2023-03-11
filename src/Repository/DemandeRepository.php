@@ -54,6 +54,19 @@ class DemandeRepository extends ServiceEntityRepository
         ;
     }
 
+    /**
+     * @return Demande[] 
+     */
+    public function findByIdUser($idManager): array
+    {
+        return $this->createQueryBuilder('d')
+            ->andWhere('d.manager = :idManager')
+            ->setParameter('idManager', $idManager)
+            ->orderBy('d.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
 //    /**
 //     * @return Demande[] Returns an array of Demande objects
