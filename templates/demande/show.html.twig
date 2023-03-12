@@ -17,18 +17,8 @@
         <div class="col-sm-8 col-md-8">
         <div class="dataTables_length" id="dataTable_length"><label><span class="colortitle">Statut</span>
 
-        {{ form_start(form) }}
-           {# {{ form_row(form.statut , {'attr': {'style': 'background-color : '~ demande.statut.color   }}) }}#}
-           <div class="row" style="display: flex;align-items: center;">
-            <div class="col-8" >
-            {{ form_row(form.statut , {'attr': {'class':'btnstatut','style': 'background-color : '~ demande.statut.color  }}) }}
-            </div>
-            <div class="col-2" style="margin-left: -10%;">
-            <button class="btn btncheck"><i class="fa-solid fa-check"></i>
-                {{ button_label|default('') }}</button>        
-            </div>
-            </div>
-       {{ form_end(form) }}       
+            {{ include('demande/_changestatut.html.twig') }}
+      
         </label>
         </div>
         </div>

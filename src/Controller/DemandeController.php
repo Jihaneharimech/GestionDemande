@@ -75,8 +75,17 @@ class DemandeController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_demande_show', methods: ['GET', 'POST'])]
-    public function show(Request $request, Demande $demande, DemandeRepository $demandeRepository): Response
+    #[Route('/{id}', name: 'app_demande_show', methods: ['GET'])]
+    public function show(Demande $demande): Response
+    {      
+        return $this->render('demande/show.html.twig', [
+            'demande' => $demande,
+        ]);
+    }
+
+    
+    #[Route('/{id}/voir', name: 'app_demande_show_statut', methods: ['GET', 'POST'])]
+    public function showstatut(Request $request, Demande $demande, DemandeRepository $demandeRepository): Response
     {
         $form = $this->createForm(StatutType::class, $demande);
         $form->handleRequest($request);
@@ -113,10 +122,14 @@ class DemandeController extends AbstractController
     #[Route('/{id}', name: 'app_demande_delete', methods: ['POST'])]
     public function delete(Request $request, Demande $demande, DemandeRepository $demandeRepository): Response
     {
+      
         if ($this->isCsrfTokenValid('delete'.$demande->getId(), $request->request->get('_token'))) {
+
             $demandeRepository->remove($demande, true);
+          
         }
 
         return $this->redirectToRoute('app_demande_index', [], Response::HTTP_SEE_OTHER);
     }
 }
+
