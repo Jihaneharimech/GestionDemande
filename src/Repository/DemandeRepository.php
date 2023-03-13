@@ -70,8 +70,8 @@ class DemandeRepository extends ServiceEntityRepository
     }
 
             /**
-     * Requete qui permet de recuperer les produits en faction de la recherche de l'utilisateur
-     * @return Product[] Returns an array of Product objects
+     * Requete qui permet de recuperer les demandes en faction de la recherche de l'utilisateur
+     * @return Demandes[] Returns an array of demande objects
     */
     public function findWithCustomSearch(CustomSearch $search, $idManager): array
     {

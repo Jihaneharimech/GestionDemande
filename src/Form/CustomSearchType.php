@@ -20,11 +20,7 @@ class CustomSearchType extends AbstractType
         $builder
         ->add('string', TextType::class,[
             'label' => false,
-            'required' => false,
-             'attr' => [
-                'placeholder' => 'Je cherche...',
-                'class' => 'form-control-sm'
-            ]
+            'required' => false
         ])
         ->add('ville', EntityType::class, [
             'label' => false,
@@ -67,4 +63,5 @@ class CustomSearchType extends AbstractType
             'crsf_protection' => false
         ]);
     }
+
 }

@@ -24,7 +24,7 @@ class ChangePasswordType extends AbstractType
                 'mapped' => false,
                 'attr' => [
                     'placeholder' => 'Mot de passe actual',
-                    'class' => 'form-control mt-5'
+                    'class' => ' mt-4'
                 ]
             ])
             ->add('new_password', RepeatedType::class, [
@@ -36,13 +36,13 @@ class ChangePasswordType extends AbstractType
                 'first_options'  => ['label' => false,
                 'attr' => [
                     'placeholder' => 'Mot de passe',
-                    'class' => 'form-control mt-4'
+                    'class' => 'mt-4'
                 ]
             ],
                 'second_options' => ['label' => false,
                 'attr' => [
                     'placeholder' => 'Confirmer votre nouveau mot de passe',
-                    'class' => 'form-control mt-4'
+                    'class' => 'mt-4'
                 ]
             ],
             ])

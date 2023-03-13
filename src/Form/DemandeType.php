@@ -26,61 +26,49 @@ class DemandeType extends AbstractType
             ->add('nomClient', TextType::class, [
                 'label' => false,
                 'attr' => [
-                    'placeholder' => 'Nom Client',
-                    'class' => 'form-control form-control-user'
+                    'placeholder' => 'Nom Client'
                 ]
             ])
             ->add('email', EmailType::class, [
                 'label' => false,
                 'attr' => [
-                    'placeholder' => 'Adresse Email',
-                    'class' => 'form-control form-control-user'
+                    'placeholder' => 'Adresse Email'
                 ]
             ])
             ->add('telephone', TelType::class, [
                 'label' => false,
                 'attr' => [
-                    'placeholder' => 'Téléphone',
-                    'class' => 'form-control form-control-user'
+                    'placeholder' => 'Téléphone'
                 ]
             ])
             ->add('adresse', TextType::class, [
                 'label' => false,
                 'attr' => [
-                    'placeholder' => 'Adresse Client',
-                    'class' => 'form-control form-control-user'
+                    'placeholder' => 'Adresse Client'
                 ]
             ])
             ->add('codePostal', TextType::class, [
                 'label' => false,
                 'attr' => [
-                    'placeholder' => 'Code Postal',
-                    'class' => 'form-control form-control-user'
+                    'placeholder' => 'Code Postal'
                 ]
             ])
             ->add('ville', EntityType::class, [
                 'label' => 'Ville',
                 'class' => Villes::class,
                 'choice_label' => 'nom',
-                 'expanded' => false,
-                 'attr' => [
-                    'class' => 'form-control form-control-user'
-                ]
+                 'expanded' => false
             ])
             ->add('typeAppareil', EntityType::class, [
                 'label' => 'Type Appareil',
                 'class' => Appareil::class,
                 'choice_label' => 'nom',
-                 'expanded' => false,
-                 'attr' => [
-                    'class' => 'form-control form-control-user'
-                ]
+                 'expanded' => false
             ])
             ->add('nbrAppareil', IntegerType::class, [
                 'label' => false,
                 'attr' => [
-                    'placeholder' => 'Nombre Appareils',
-                    'class' => 'form-control form-control-user'
+                    'placeholder' => 'Nombre Appareils'
                 ]
             ])
             ->add('dateDisponibilite', DateTimeType::class, [
@@ -88,16 +76,14 @@ class DemandeType extends AbstractType
                 'widget' => 'single_text',
                 'input' => 'datetime_immutable',
                 'attr' => [
-                    'placeholder' => 'Date Installation',
-                    'class' => 'form-control form-control-user'
+                    'placeholder' => 'Date Installation'
                 ]
             ])
             ->add('description', TextareaType::class, [
                 'required' => false,
                 'label' => false,
                 'attr' => [
-                    'placeholder' => 'Description',
-                    'class' => 'form-control form-control-user'
+                    'placeholder' => 'Description'
                 ]
             ])
         ;               
