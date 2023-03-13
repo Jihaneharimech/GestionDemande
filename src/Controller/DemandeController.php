@@ -7,6 +7,8 @@ use DateTimeImmutable;
 use App\Entity\Demande;
 use App\Form\StatutType;
 use App\Form\DemandeType;
+use App\Classe\CustomSearch;
+use App\Form\CustomSearchType;
 use App\Repository\DemandeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,14 +25,25 @@ class DemandeController extends AbstractController
         $this->entityManager = $entityManager;
     }
     
-    #[Route('/', name: 'app_demande_index', methods: ['GET'])]
-    public function index(DemandeRepository $demandeRepository): Response
+    #[Route('/', name: 'app_demande_index', methods: ['GET','POST'])]
+    public function index(Request $request, DemandeRepository $demandeRepository): Response
     {
         if($this->getUser()->isManager())
-        { 
-            //['ROLE_MANAGER'] Affichier les demandes par user
+        {           
+            //My Custom Search
+            $customsearch = new CustomSearch();
+            $form = $this->createForm(CustomSearchType::class,$customsearch);
+            $form->handleRequest($request);
             $idManager = $this->getUser()->getId();
-            $demandes = $demandeRepository->findByIdUser($idManager);
+            if ($form->isSubmitted() && $form->isValid())
+            {
+                $demandes= $demandeRepository->findWithCustomSearch($customsearch,$idManager);
+            }
+            else {
+                //['ROLE_MANAGER'] Affichier les demandes par user
+                $demandes = $demandeRepository->findByIdUser($idManager);
+            }
+
         }else
         {
             //['ROLE_USER'] Recuperer ID_ville de User et affichier les demandes par idVille
@@ -40,6 +53,7 @@ class DemandeController extends AbstractController
      
         return $this->render('demande/index.html.twig', [
             'demandes' => $demandes,
+            'form' => $form,
         ]);
     }
 

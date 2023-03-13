@@ -7,10 +7,6 @@
 .tbody-d{
     font-size: 14px;
 }
-.colortitle {
-    color: #040f39;
-    font-weight: 600;
-}
 .cart-icon{
     height: 2em;
 }
@@ -75,4 +71,38 @@ button.btn.btncheck{
     display: inline-block;
     font-size: 14px;
     margin-top: 1em;
+}
+.styleTitleList {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1;
+    text-transform: uppercase;
+    -webkit-user-select: none;
+    user-select: none;
+    color: #040f39;
+}
+.styletd td{
+    -webkit-font-smoothing: antialiased;
+    font-size: 13.5px;
+    font-weight: 400;
+    line-height: 1.5;
+    margin-right: 2px;
+    padding: 5px 8px 6px !important;
+    margin-left: -5px;
+    border-radius: 4px;
+    color: var(--cu-content-default);
+}
+.styletd {
+    -webkit-font-smoothing: antialiased;
+    font-size: 13.5px;
+    font-weight: 400;
+    line-height: 1.5;
+    margin-right: 2px;
+    padding: 5px 5px 6px !important;
+    margin-left: -5px;
+    border-radius: 4px;
+    color: var(--cu-content-default);
 }

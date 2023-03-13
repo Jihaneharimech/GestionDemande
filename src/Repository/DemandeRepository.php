@@ -2,10 +2,11 @@
 
 namespace App\Repository;
 
-use App\Entity\Demande;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
 use DateTime;
+use App\Entity\Demande;
+use App\Classe\CustomSearch;
+use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Demande>
@@ -67,6 +68,55 @@ class DemandeRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+
+            /**
+     * Requete qui permet de recuperer les produits en faction de la recherche de l'utilisateur
+     * @return Product[] Returns an array of Product objects
+    */
+    public function findWithCustomSearch(CustomSearch $search, $idManager): array
+    {
+        $query = $this
+            ->createQueryBuilder('d')
+            ->select('v','d','s','a')
+            ->join('d.ville','v')
+            ->join('d.statut','s')
+            ->join('d.typeAppareil','a');
+
+            if(!empty($search->ville)){
+                $query = $query
+                ->andWhere('v.id IN (:ville)') 
+                ->andWhere('d.manager = :idManager') 
+                ->setParameter('ville', $search->ville)
+                ->setParameter('idManager', $idManager);
+            }
+
+            if(!empty($search->typeAppareil)){
+                $query = $query
+                ->andWhere('a.id IN (:typeAppareil)') 
+                ->andWhere('d.manager = :idManager') 
+                ->setParameter('typeAppareil', $search->typeAppareil)
+                ->setParameter('idManager', $idManager);
+            }
+
+            if(!empty($search->statut)){
+                $query = $query
+                ->andWhere('s.id IN (:statut)') 
+                ->andWhere('d.manager = :idManager') 
+                ->setParameter('statut', $search->statut)
+                ->setParameter('idManager', $idManager);
+            }
+
+            if(!empty($search->string)){
+                $query = $query
+                ->andWhere('d.nomClient LIKE :string')
+                ->andWhere('d.manager = :idManager')
+                ->setParameter('string', "%{$search->string}%")
+                ->setParameter('idManager', $idManager);;
+            }
+
+            return $query->getQuery()->getResult();
+    }
+
 
 //    /**
 //     * @return Demande[] Returns an array of Demande objects

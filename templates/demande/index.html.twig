@@ -8,6 +8,9 @@
       <div class="alert alert-info"> {{ notice }}</div>
   {% endfor %}
 
+ <h3>Filtrer</h3>
+         {{ form(form)}}
+
 <h1 class="h3 mb-2 text-gray-800">Les Demandes</h1>
 
 <div class="row justify-content-center mt-4">
@@ -17,24 +20,25 @@
     <table class="table mb-0">
         <thead class="thead-d">
             <tr>
-                <th>N° demande</th>
-                <th>Nom Client</th>
-                <th>Adresse</th>
-                <th>Ville</th>
-                <th>Code Postal</th>
-                <th>Email</th>
-                <th>Téléphone </th>
-                <th>Date installation</th>
-                <th>Nbr Appareil</th>
-                <th>Statut</th>
-                <th>Description</th>
-                <th>Date création</th>
-                <th>Actions</th>
+                <th class="styleTitleList">N° demande</th>
+                <th class="styleTitleList">Nom Client</th>
+                <th class="styleTitleList">Adresse</th>
+                <th class="styleTitleList">Ville</th>
+                <th class="styleTitleList">Code Postal</th>
+                <th class="styleTitleList">Email</th>
+                <th class="styleTitleList">Téléphone </th>
+                <th class="styleTitleList">Date installation</th>
+                <th class="styleTitleList">Type Appareil</th>
+                <th class="styleTitleList">Nbr Appareil</th>
+                <th class="styleTitleList">Statut</th>
+                <th class="styleTitleList">Description</th>
+                <th class="styleTitleList">Date création</th>
+                <th class="styleTitleList">Actions</th>
             </tr>
         </thead>
         <tbody class="tbody-d">
         {% for demande in demandes %}
-            <tr>
+            <tr class="styletd">
                 <td>{{ demande.id }}</td>
                 <td>{{ demande.nomClient }}</td>
                 <td>{{ demande.adresse }}</td>
@@ -43,6 +47,7 @@
                 <td>{{ demande.email }}</td>
                 <td>{{ demande.telephone }}</td>
                 <td>{{ demande.dateDisponibilite ? demande.dateDisponibilite|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ demande.TypeAppareil }}</td>
                 <td>{{ demande.nbrAppareil }}</td>
                 <td>{{ demande.statut }}</td>
                 <td>{{ demande.description |raw }}</td>
