@@ -12,18 +12,19 @@ import './css/sb-admin-2.min.css';
 import './css/sb-admin-2.css';
 import './js/sb-admin-2.min.js';
 import './js/sb-admin-2.js';
+import './js/custom.js';
 
 
 // start the Stimulus application
 import './bootstrap';
 import 'bootstrap';
 
-import $ from 'jquery';
-
 import '@fortawesome/fontawesome-free/js/fontawesome';
 import '@fortawesome/fontawesome-free/js/solid';
 import '@fortawesome/fontawesome-free/js/regular';
 import '@fortawesome/fontawesome-free/js/brands';
 
-
+import $ from 'jquery';
+require('select2')
+$('select').select2();
 

@@ -77,6 +77,8 @@ Encore
         jQuery: 'jquery',
         'window.jQuery': 'jquery',
     })
+
+ 
 ;
 
 

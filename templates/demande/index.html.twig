@@ -3,6 +3,17 @@
 {% block title %}Les Demandes{% endblock %}
 
 {% block content %}
+
+
+<select class="js-example-basic-multiple" name="states[]" multiple="multiple">
+  <option value="AL">Alabama</option>
+  <option value="AO">FRFR</option>
+  <option value="AG">RRGHBT</option>
+  <option value="WY">Wyoming</option>
+</select>
+
+
+
 <div class="container">
   {% for notice in app.flashes('notice') %}
       <div class="alert alert-info"> {{ notice }}</div>

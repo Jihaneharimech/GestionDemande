@@ -20,7 +20,10 @@ class CustomSearchType extends AbstractType
         $builder
         ->add('string', TextType::class,[
             'label' => false,
-            'required' => false
+            'required' => false,
+            'attr' => [
+                'placeholder' => 'Je cherche...',
+            ]
         ])
         ->add('ville', EntityType::class, [
             'label' => false,
@@ -28,7 +31,9 @@ class CustomSearchType extends AbstractType
             'class' => Villes::class,
             'choice_label' => 'nom',
              'multiple' => true,
-             'expanded' => false
+             'expanded' => false,
+             'attr' => ['class' => 'js-example-basic-multiple'
+             ] 
         ])
         ->add('typeAppareil', EntityType::class, [
             'label' => false,
