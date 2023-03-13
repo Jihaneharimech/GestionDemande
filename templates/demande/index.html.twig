@@ -1,28 +1,54 @@
 {% extends 'base.html.twig' %}
-
 {% block title %}Les Demandes{% endblock %}
-
 {% block content %}
-
-
-<select class="js-example-basic-multiple" name="states[]" multiple="multiple">
-  <option value="AL">Alabama</option>
-  <option value="AO">FRFR</option>
-  <option value="AG">RRGHBT</option>
-  <option value="WY">Wyoming</option>
-</select>
-
-
 
 <div class="container">
   {% for notice in app.flashes('notice') %}
       <div class="alert alert-info"> {{ notice }}</div>
   {% endfor %}
 
- <h3>Filtrer</h3>
-         {{ form(form)}}
+ <div class="row" >
+    <div class="col-sm-8">
+    <h1 class="h3 text-gray-800">Les Demandes</h1>
+    </div>
+     {% if app.user.isManager() %}
+    <div class="col-sm-4">
+                         <!-- Nav Item - Filtrer -->
+                        <div class="dropdown no-arrow">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLinkFiltrer" data-bs-toggle="dropdown" aria-expanded="false">
+                          <div class="nav-item text-end title-filtrer">
+                            <i class="fa-solid fa-sliders"></i>
+                            <span>Filtrer</span>
+                          </div>
+                        </a>
+                        <ul class="dropdown-menu ul-filtrer" aria-labelledby="dropdownMenuLinkFiltrer">
+                            <h3 class="h3-filtrer">Filtrer</h3>
+                            {{ form_start(form) }}
+                                    <div class="row">
+                                        <div class="col-12">
+                                            {{ form_row(form.string)}}
+                                        </div>
+                                    </div>
+                                <div class="row">
+                                    <div class="col-sm">
+                                        {{ form_row(form.ville)}}
+                                    </div>
+                                    <div class="col-sm">
+                                        {{ form_row(form.typeAppareil)}}
+                                    </div>
+                                    <div class="col-sm">
+                                        {{ form_row(form.statut)}}
+                                    </div>
+                                </div>
+                            {{ form_end(form) }} 
+                        </ul>
+                        </div>
+                    </div>
+                      {% endif %}
+</div>
 
-<h1 class="h3 mb-2 text-gray-800">Les Demandes</h1>
+
+ 
 
 <div class="row justify-content-center mt-4">
 <div class="col-12">

@@ -106,3 +106,36 @@ button.btn.btncheck{
     border-radius: 4px;
     color: var(--cu-content-default);
 }
+
+.h3-filtrer{
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.2;
+    position: relative;
+    color: #2a2e34;
+    text-decoration: none;
+    z-index: 10;
+}
+.ul-filtrer{
+    position: absolute;
+    inset: 0px auto auto 0px;
+    margin: -115px !important;
+    padding: 1.4em !important;
+    transform: translate(-116px, 158px) !important;
+    box-shadow: 0 1px 10px #00000040;
+    background: #fff;
+    border-radius: 6px;
+    overflow-y: auto !important;
+    animation: dropdownMenuAnimation .03s ease-in forwards !important;
+}
+svg.svg-inline--fa.fa-sliders {
+    font-size: 80%;
+    color: #222;
+}
+.title-filtrer span {
+    font-weight: 400;
+    font-size: 14px;
+    color: #222;
+}

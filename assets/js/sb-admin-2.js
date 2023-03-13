@@ -55,7 +55,3 @@
 
 })(jQuery); // End of use strict
 
-
-$(document).ready(function() {
-  $('.js-example-basic-multiple').select2();
-});

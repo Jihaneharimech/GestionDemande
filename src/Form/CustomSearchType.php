@@ -32,8 +32,10 @@ class CustomSearchType extends AbstractType
             'choice_label' => 'nom',
              'multiple' => true,
              'expanded' => false,
-             'attr' => ['class' => 'js-example-basic-multiple'
-             ] 
+             'attr' => [
+                'data-placeholder' => 'Sélectionner Ville(s)',
+                'style' => 'font-weight: 400;margin-right: 11px;',
+            ]
         ])
         ->add('typeAppareil', EntityType::class, [
             'label' => false,
@@ -41,7 +43,10 @@ class CustomSearchType extends AbstractType
             'class' => Appareil::class,
             'choice_label' => 'nom',
              'multiple' => true,
-             'expanded' => false
+             'expanded' => false,
+             'attr' => [
+                'data-placeholder' => 'Sélectionner Type(s) Appareils',
+            ]
         ])
         ->add('statut', EntityType::class, [
             'label' => false,
@@ -49,12 +54,15 @@ class CustomSearchType extends AbstractType
             'class' => Statut::class,
             'choice_label' => 'nom',
              'multiple' => true,
-             'expanded' => false
+             'expanded' => false,
+             'attr' => [
+                'data-placeholder' => 'Sélectionner Statut(s)',
+            ]
         ])
         ->add('Submit', SubmitType::class,[
             'label' => "Afficher les résultats",
             'attr' => [
-                'class' => 'btn-block btn-info  '
+                'class' => 'btn-block btn-primary  '
             ]
         ])
     ;

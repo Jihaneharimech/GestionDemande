@@ -43,11 +43,13 @@ class DemandeController extends AbstractController
                 //['ROLE_MANAGER'] Affichier les demandes par user
                 $demandes = $demandeRepository->findByIdUser($idManager);
             }
+            if ($form->isSubmitted()){ $demandes = $demandeRepository->findByIdUser($idManager);}
         }else
         {
             //['ROLE_USER'] Recuperer ID_ville de User et affichier les demandes par idVille
             $idville = $this->getUser()->getVille()->getId();
             $demandes = $demandeRepository->findByVille($idville);
+            $form="";
         }
      
         return $this->render('demande/index.html.twig', [
