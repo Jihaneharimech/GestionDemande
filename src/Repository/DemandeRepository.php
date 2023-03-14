@@ -109,6 +109,7 @@ class DemandeRepository extends ServiceEntityRepository
             if(!empty($search->string)){
                 $query = $query
                 ->andWhere('d.nomClient LIKE :string')
+                ->orWhere('d.id LIKE :string')
                 ->andWhere('d.manager = :idManager')
                 ->setParameter('string', "%{$search->string}%")
                 ->setParameter('idManager', $idManager);;

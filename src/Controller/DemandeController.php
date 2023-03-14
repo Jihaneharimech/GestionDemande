@@ -35,15 +35,16 @@ class DemandeController extends AbstractController
             $form = $this->createForm(CustomSearchType::class,$customsearch);
             $form->handleRequest($request);
             $idManager = $this->getUser()->getId();
-            if ($form->isSubmitted() && $form->isValid())
+
+            if ($form->isSubmitted() && $form->isValid() && ($form->get('ville')->getData() != null || $form->get('string')->getData() != null 
+            || $form->get('typeAppareil')->getData() != null || $form->get('statut')->getData() != null))
             {
-                $demandes= $demandeRepository->findWithCustomSearch($customsearch,$idManager);
-            }
+                $demandes= $demandeRepository->findWithCustomSearch($customsearch,$idManager);              
+            } 
             else {
                 //['ROLE_MANAGER'] Affichier les demandes par user
                 $demandes = $demandeRepository->findByIdUser($idManager);
-            }
-            if ($form->isSubmitted()){ $demandes = $demandeRepository->findByIdUser($idManager);}
+            }        
         }else
         {
             //['ROLE_USER'] Recuperer ID_ville de User et affichier les demandes par idVille
