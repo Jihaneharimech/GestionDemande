@@ -36,10 +36,11 @@ class DemandeController extends AbstractController
             $form->handleRequest($request);
             $idManager = $this->getUser()->getId();
 
-            if ($form->isSubmitted() && $form->isValid() && ($form->get('ville')->getData() != null || $form->get('string')->getData() != null 
-            || $form->get('typeAppareil')->getData() != null || $form->get('statut')->getData() != null))
+            if ($form->isSubmitted() && $form->isValid() && ($form->get('ville')->getData() != null || $form->get('string')->getData() != null || $form->get('typeAppareil')->getData() != null 
+            || $form->get('statut')->getData() != null || 
+            ($form->get('datefrom')->getData() != null && $form->get('dateto')->getData() != null) ))
             {
-                $demandes= $demandeRepository->findWithCustomSearch($customsearch,$idManager);              
+                $demandes= $demandeRepository->findWithCustomSearch($customsearch,$idManager); 
             } 
             else {
                 //['ROLE_MANAGER'] Affichier les demandes par user

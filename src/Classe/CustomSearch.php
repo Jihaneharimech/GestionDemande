@@ -1,11 +1,13 @@
 <?php
 namespace App\Classe;
 
+use DateTime;
+
 class CustomSearch{
 
     /**
      * @var string
-     * Pour representer ( N°demande, NomClint, Telephone)
+     * Pour representer ( N°demande, NomClint)
      */
     public $string="";
 
@@ -24,5 +26,14 @@ class CustomSearch{
      */
     public $statut= [];
 
+    /**
+     * @var datefrom
+     */
+    public ?DateTime $datefrom = null;
+
+     /**
+     * @var dateto
+     */
+    public ?DateTime $dateto = null;
 
 }

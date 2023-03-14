@@ -112,7 +112,16 @@ class DemandeRepository extends ServiceEntityRepository
                 ->orWhere('d.id LIKE :string')
                 ->andWhere('d.manager = :idManager')
                 ->setParameter('string', "%{$search->string}%")
-                ->setParameter('idManager', $idManager);;
+                ->setParameter('idManager', $idManager);
+            }
+
+            if(!empty($search->datefrom) &&!empty($search->dateto)  ){
+                $query = $query
+                ->andWhere('d.createdAt BETWEEN :datefrom AND :dateto')
+                ->andWhere('d.manager = :idManager')
+                ->setParameter('datefrom', $search->datefrom->format('Y-m-d') . ' 00:00:00')
+                ->setParameter('dateto', $search->dateto->format('Y-m-d') . ' 23:59:59')
+                ->setParameter('idManager', $idManager);
             }
 
             return $query->getQuery()->getResult();
