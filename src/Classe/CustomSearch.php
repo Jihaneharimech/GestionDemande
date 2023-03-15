@@ -36,4 +36,9 @@ class CustomSearch{
      */
     public ?DateTime $dateto = null;
 
+    /**
+     * @var selectDate[]
+     */
+    public $selectDate=[];
+
 }

@@ -124,6 +124,15 @@ class DemandeRepository extends ServiceEntityRepository
                 ->setParameter('idManager', $idManager);
             }
 
+            if(!empty($search->selectDate)){
+                $query = $query
+                ->andWhere('d.createdAt BETWEEN :from AND :to')
+                ->andWhere('d.manager = :idManager')
+                ->setParameter('from', $search->selectDate->format('Y-m-d'). ' 00:00:00' )
+                ->setParameter('to', $search->selectDate->format('Y-m-d'). ' 23:59:59' )
+                ->setParameter('idManager', $idManager);
+            }
+
             return $query->getQuery()->getResult();
     }
 

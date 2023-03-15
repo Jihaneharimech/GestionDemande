@@ -12,6 +12,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class CustomSearchType extends AbstractType
@@ -54,9 +55,9 @@ class CustomSearchType extends AbstractType
             'required' => false,
             'class' => Statut::class,
             'choice_label' => 'nom',
-             'multiple' => true,
-             'expanded' => false,
-             'attr' => [
+            'multiple' => true,
+            'expanded' => false,
+            'attr' => [
                 'data-placeholder' => 'Sélectionner Statut(s)',
             ]
         ])
@@ -70,6 +71,15 @@ class CustomSearchType extends AbstractType
             'widget' => 'single_text',
             'required' => false,
         ])
+        ->add('selectDate', ChoiceType::class, [
+            'required' => false,
+            'label' => false,
+            'placeholder' => 'Sélectionner une option',
+            'choices' => [
+                    'Aujourd’hui ' => new \DateTime('0 day'),
+                    'Hier' => new \DateTime('-1 day'),
+            ]
+            ])
         ->add('Submit', SubmitType::class,[
             'label' => "Afficher les résultats",
             'attr' => [

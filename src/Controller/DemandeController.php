@@ -38,7 +38,8 @@ class DemandeController extends AbstractController
 
             if ($form->isSubmitted() && $form->isValid() && ($form->get('ville')->getData() != null || $form->get('string')->getData() != null || $form->get('typeAppareil')->getData() != null 
             || $form->get('statut')->getData() != null || 
-            ($form->get('datefrom')->getData() != null && $form->get('dateto')->getData() != null) ))
+            ($form->get('datefrom')->getData() != null && $form->get('dateto')->getData() != null) )
+            || ($form->get('selectDate')->getData() != null))
             {
                 $demandes= $demandeRepository->findWithCustomSearch($customsearch,$idManager); 
             } 
