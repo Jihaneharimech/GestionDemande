@@ -15,7 +15,7 @@
               class="rounded-circle img-fluid" style="width: 150px;">
             <h5 class="my-3">{{ app.user.name}}</h5>
               {% if app.user.isManager() %}
-                  <p class="text-muted mb-4 font-weight-bold">Manage</p>
+                  <p class="text-muted mb-4 font-weight-bold" style="color: #040f39 !important;">Manage</p>
                   {% elseif ( app.user.isManager() == false) %}
                   <p class="text-muted mb-4 font-weight-bold">Installateur</p>
               {% endif %}
@@ -30,7 +30,7 @@
         <div class="card mb-4">
           <div class="card-body">
             <div class="row">
-              <div class="col-sm-3">
+              <div class="col-sm-3 styleTitleprofil">
                 <p class="mb-0">Nom et prénom</p>
               </div>
               <div class="col-sm-9">
@@ -39,7 +39,7 @@
             </div>
             <hr>
             <div class="row">
-              <div class="col-sm-3">
+              <div class="col-sm-3 styleTitleprofil">
                 <p class="mb-0">Email</p>
               </div>
               <div class="col-sm-9">
@@ -48,7 +48,7 @@
             </div>
             <hr>
             <div class="row">
-              <div class="col-sm-3">
+              <div class="col-sm-3 styleTitleprofil">
                 <p class="mb-0">Téléphone</p>
               </div>
               <div class="col-sm-9">
@@ -57,7 +57,7 @@
             </div>
             <hr>
             <div class="row">
-              <div class="col-sm-3">
+              <div class="col-sm-3 styleTitleprofil">
                 <p class="mb-0">Ville</p>
               </div>
               <div class="col-sm-9">

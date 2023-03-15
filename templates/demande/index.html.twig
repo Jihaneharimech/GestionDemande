@@ -9,7 +9,7 @@
 
  <div class="row" >
     <div class="col-sm-8">
-    <h1 class="h3 text-gray-800">Les Demandes</h1>
+    <h1 class="h3 fs-4"  style="color: #040f39; font-weight: 500;">Les Demandes</h1>
     </div>
      {% if app.user.isManager() %}
     <div class="col-sm-4">
@@ -29,11 +29,6 @@
                                             {{ form_row(form.string)}}
                                         </div>
                                     </div>
-                                       <div class="row">
-                                        <div class="col-12">
-                                            {{ form_row(form.selectDate)}}
-                                        </div>
-                                 </div>
                                 <div class="row">
                                     <div class="col-sm">
                                         {{ form_row(form.ville)}}
@@ -51,6 +46,11 @@
                                         </div>
                                         <div class="col-6">
                                             {{ form_row(form.dateto)}}
+                                        </div>
+                                 </div>
+                                   <div class="row">
+                                        <div class="col-12">
+                                            {{ form_row(form.selectDate)}}
                                         </div>
                                  </div>
                             {{ form_end(form) }} 
