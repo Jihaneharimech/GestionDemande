@@ -41,4 +41,9 @@ class CustomSearch{
      */
     public $selectDate=[];
 
+     /**
+     * @var stringSearchAll
+     * Pour representer ( N°demande, NomClint) CustomSearchAll
+     */
+    public $stringSearchAll="";
 }

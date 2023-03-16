@@ -9,6 +9,7 @@ use App\Form\StatutType;
 use App\Form\DemandeType;
 use App\Classe\CustomSearch;
 use App\Form\CustomSearchType;
+use App\Form\CustomSearchAllType;
 use App\Repository\DemandeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,6 +29,8 @@ class DemandeController extends AbstractController
     #[Route('/', name: 'app_demande_index', methods: ['GET','POST'])]
     public function index(Request $request, DemandeRepository $demandeRepository): Response
     {
+       
+
         if($this->getUser()->isManager())
         {           
             //My Custom Search
@@ -35,6 +38,7 @@ class DemandeController extends AbstractController
             $form = $this->createForm(CustomSearchType::class,$customsearch);
             $form->handleRequest($request);
             $idManager = $this->getUser()->getId();
+            $formSearchAll="";
 
             if ($form->isSubmitted() && $form->isValid() && ($form->get('ville')->getData() != null || $form->get('string')->getData() != null || $form->get('typeAppareil')->getData() != null 
             || $form->get('statut')->getData() != null || 
@@ -46,18 +50,26 @@ class DemandeController extends AbstractController
             else {
                 //['ROLE_MANAGER'] Affichier les demandes par user
                 $demandes = $demandeRepository->findByIdUser($idManager);
-            }        
+            }      
         }else
         {
-            //['ROLE_USER'] Recuperer ID_ville de User et affichier les demandes par idVille
-            $idville = $this->getUser()->getVille()->getId();
-            $demandes = $demandeRepository->findByVille($idville);
-            $form="";
+             //['ROLE_USER'] Recuperer ID_ville de User et affichier les demandes par idVille
+             $idville = $this->getUser()->getVille()->getId();
+             $demandes = $demandeRepository->findByVille($idville);
+             $form="";
+             //My Custom Search All
+             $customsearch = new CustomSearch();
+            $formSearchAll = $this->createForm(CustomSearchAllType::class,$customsearch);
+            $formSearchAll->handleRequest($request);
+            if ($formSearchAll->isSubmitted() && $formSearchAll->isValid() && $formSearchAll->get('stringSearchAll')->getData() != null){
+                $demandes= $demandeRepository->findWithCustomSearchAll($customsearch,$idville); 
+            }
         }
      
         return $this->render('demande/index.html.twig', [
             'demandes' => $demandes,
             'form' => $form,
+            'formSearchAll' => $formSearchAll,
         ]);
     }
 

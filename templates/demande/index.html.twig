@@ -7,6 +7,19 @@
       <div class="alert alert-info"> {{ notice }}</div>
   {% endfor %}
 
+                        {% set nb_role = app.user.getRoles()|length %}
+                        {% if (app.user.isUser()) and (nb_role < 2) %}
+                           <!-- Search -->
+                            {{ form_start(formSearchAll) }}
+                           <div class="input-group rounded">
+                            {{ form_row(formSearchAll.stringSearchAll)}}
+                            <span class="border-0" id="search-addon">
+                                {{ form_row(formSearchAll.Submit)}}   
+                            </span>
+                            </div>
+                                {{ form_end(formSearchAll) }}
+                          {% endif %}
+
  <div class="row" >
     <div class="col-sm-8">
     <h1 class="h3 fs-4"  style="color: #040f39; font-weight: 500;">Les Demandes</h1>
@@ -60,8 +73,6 @@
                       {% endif %}
 </div>
 
-
- 
 
 <div class="row justify-content-center mt-4">
 <div class="col-12">

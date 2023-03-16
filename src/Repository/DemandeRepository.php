@@ -136,6 +136,28 @@ class DemandeRepository extends ServiceEntityRepository
             return $query->getQuery()->getResult();
     }
 
+    /**
+     * Requete qui permet de recuperer les demandes en faction de la recherche de l'utilisateur
+     * @return Demandes[] Returns an array of demande objects
+    */
+    public function findWithCustomSearchAll(CustomSearch $search, $idville): array
+    {
+        $query = $this
+            ->createQueryBuilder('d')
+            ->select('d','v')
+            ->join('d.ville','v');
+
+            if(!empty($search->stringSearchAll)){
+                $query = $query
+                ->andWhere('d.nomClient LIKE :stringSearchAll')
+                ->orWhere('d.id LIKE :stringSearchAll')
+                ->orWhere('d.telephone LIKE :stringSearchAll')
+                ->andWhere('d.ville = :ville')
+                ->setParameter('stringSearchAll', "%{$search->stringSearchAll}%")
+                ->setParameter('ville', $idville);
+            }
+            return $query->getQuery()->getResult();
+    }
 
 //    /**
 //     * @return Demande[] Returns an array of Demande objects
