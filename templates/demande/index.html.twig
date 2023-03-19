@@ -25,7 +25,28 @@
     <h1 class="h3 fs-4"  style="color: #040f39; font-weight: 500;">Les Demandes</h1>
     </div>
      {% if app.user.isManager() %}
-    <div class="col-sm-4">
+
+
+                    <div class="nav-item dropdown no-arrow col-sm-2">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuExport" role="button" data-bs-toggle="dropdown" 
+                          aria-expanded="false"> 
+                         <span class="mr-2 d-none d-lg-inline text-black small">
+                       <i class="fas fa-download"></i>
+                         Exporter la vue</span></a>
+                               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="navbarDropdownMenuExport">
+                                <a class="dropdown-item" href="{{ path('app_export_csv') }}">
+                                    <i class="fa-solid fa-file-csv fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    CSV
+                                </a>
+                                <a class="dropdown-item" href="{{ path('app_export_csv') }}">
+                                    <i class="fa-solid fa-file-excel fa-sm fa-fw mr-2 text-gray-400"></i>
+                                     Excel 
+                                </a>
+                          </div>
+                        </div>
+
+    <div class="col-sm-2">
                          <!-- Nav Item - Filtrer -->
                         <div class="dropdown no-arrow">
                         <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLinkFiltrer" data-bs-toggle="dropdown" aria-expanded="false">

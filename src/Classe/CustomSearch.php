@@ -46,4 +46,5 @@ class CustomSearch{
      * Pour representer ( N°demande, NomClint) CustomSearchAll
      */
     public $stringSearchAll="";
+
 }

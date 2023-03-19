@@ -15,6 +15,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/demande')]
@@ -25,12 +27,10 @@ class DemandeController extends AbstractController
     {
         $this->entityManager = $entityManager;
     }
-    
-    #[Route('/', name: 'app_demande_index', methods: ['GET','POST'])]
-    public function index(Request $request, DemandeRepository $demandeRepository): Response
-    {
-       
 
+    #[Route('/', name: 'app_demande_index', methods: ['GET','POST'])]
+    public function index(Request $request, DemandeRepository $demandeRepository,SessionInterface $session): Response
+    {
         if($this->getUser()->isManager())
         {           
             //My Custom Search
@@ -46,11 +46,13 @@ class DemandeController extends AbstractController
             || ($form->get('selectDate')->getData() != null))
             {
                 $demandes= $demandeRepository->findWithCustomSearch($customsearch,$idManager); 
+                
             } 
             else {
+
                 //['ROLE_MANAGER'] Affichier les demandes par user
-                $demandes = $demandeRepository->findByIdUser($idManager);
-            }      
+                $demandes = $demandeRepository->findByIdUser($idManager);                 
+            }   
         }else
         {
              //['ROLE_USER'] Recuperer ID_ville de User et affichier les demandes par idVille
@@ -64,12 +66,13 @@ class DemandeController extends AbstractController
             if ($formSearchAll->isSubmitted() && $formSearchAll->isValid() && $formSearchAll->get('stringSearchAll')->getData() != null){
                 $demandes= $demandeRepository->findWithCustomSearchAll($customsearch,$idville); 
             }
-        }
-     
+        }        
+        $session->set('demandes', $demandes);
         return $this->render('demande/index.html.twig', [
             'demandes' => $demandes,
             'form' => $form,
             'formSearchAll' => $formSearchAll,
+            
         ]);
     }
 
@@ -161,5 +164,61 @@ class DemandeController extends AbstractController
 
         return $this->redirectToRoute('app_demande_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    #[Route('/export/csv', name: 'app_export_csv', methods: ['GET'])]
+    public function export(SessionInterface $session): Response
+    {  
+  
+  $demandes = $session->get('demandes');
+    foreach ($demandes as $demande) {
+        $id= $demande->getId();
+        $nomClient= $demande->getNomClient();
+        $adresse= $demande->getAdresse();
+        $codePostal= $demande->getCodePostal();
+        $email= $demande->getEmail();
+        $telephone= $demande->getTelephone();
+        $dateDisponibilite= $demande->getDateDisponibilite();
+        $nbrAppareil= $demande->getNbrAppareil();
+        $description= $demande->getDescription();
+        $createdAt= $demande->getCreatedAt();
+        $ville= $demande->getVille();
+        $typeAppareil= $demande->getTypeAppareil();
+        $statut= $demande->getStatut();
+     $demandeList[] = [$id,$nomClient,$adresse,$ville,$codePostal,$email,$telephone,$dateDisponibilite->format('Y-m-d'),$typeAppareil,$nbrAppareil,$statut,$description,$dateDisponibilite->format('Y-m-d')];
+     }
+
+     // Define the CSV file name
+     $filename = 'exported_data_' . date('Y-m-d') . '.csv';
+
+     // Create the CSV response object
+     $response = new Response();
+
+     // Set the content type and attachment header
+     $response->headers->set('Content-Type', 'text/csv');
+     $response->headers->set('Content-Disposition', 'attachment; filename="' . $filename . '"');
+
+     // Open a file handle to create the CSV file
+     $handle = fopen('php://output', 'w');
+
+     // Write the header row to the CSV file
+     fputcsv($handle, ['N°demande', 'Nom Client', 'Adresse', 'Ville', 'Code Postal', 'Email', 'Téléphone', 'Date installation', 'Type Appareil', 'Nbr Appareil', 'Statut', 'Description', 'Date création']);
+
+     // Write the data rows to the CSV file
+     foreach ($demandeList as $row) {
+         fputcsv($handle, $row);
+     }
+
+     // Close the file handle
+     fclose($handle);
+
+    // Set the CSV content as the response content
+    $response->setContent(ob_get_clean());
+
+
+    return $response;
+    
+    }
+
+
 }
 
