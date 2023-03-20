@@ -12,14 +12,15 @@ use App\Form\CustomSearchType;
 use App\Form\CustomSearchAllType;
 use App\Repository\DemandeRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Style\Border;
 
 #[Route('/demande')]
 class DemandeController extends AbstractController
@@ -220,68 +221,98 @@ class DemandeController extends AbstractController
     
     }
 
-    #[Route('/export/excel', name: 'app_export_excel')]
-    public function exportExcel(SessionInterface $session): Response
-    {
-        // start output buffering
-        ob_start();
-    
-        // récupérer les données de la session
-        $demandes = $session->get('demandes');
-    
-        // créer un nouveau document Excel
-        $spreadsheet = new Spreadsheet();
-        $sheet = $spreadsheet->getActiveSheet();
-    
-        // ajouter les en-têtes de colonnes
-        $sheet->setCellValue('A1', 'N° demande');
-        $sheet->setCellValue('B1', 'Nom Client');
-        $sheet->setCellValue('C1', 'Adresse');
-        $sheet->setCellValue('D1', 'Ville');
-        $sheet->setCellValue('E1', 'Code Postal');
-        $sheet->setCellValue('F1', 'Email');
-        $sheet->setCellValue('G1', 'Téléphone');
-        $sheet->setCellValue('H1', 'Date installation');
-        $sheet->setCellValue('I1', 'Type Appareil');
-        $sheet->setCellValue('J1', 'Nbr Appareil');
-        $sheet->setCellValue('K1', 'Statut');
-        $sheet->setCellValue('L1', 'Description');
-        $sheet->setCellValue('M1', 'Date création');
-    
-        // ajouter les données
-        $row = 2;
-        foreach ($demandes as $demande) {
-            $sheet->setCellValue('A'.$row, $demande->getId());
-            $sheet->setCellValue('B'.$row, $demande->getNomClient());
-            $sheet->setCellValue('C'.$row, $demande->getAdresse());
-            $sheet->setCellValue('D'.$row, $demande->getVille());
-            $sheet->setCellValue('E'.$row, $demande->getCodePostal());
-            $sheet->setCellValue('F'.$row, $demande->getEmail());
-            $sheet->setCellValue('G'.$row, $demande->getTelephone());
-            $sheet->setCellValue('H'.$row, $demande->getDateDisponibilite());
-            $sheet->setCellValue('I'.$row, $demande->getTypeAppareil());
-            $sheet->setCellValue('J'.$row, $demande->getNbrAppareil());
-            $sheet->setCellValue('K'.$row, $demande->getStatut());
-            $sheet->setCellValue('L'.$row, $demande->getDescription());
-            $sheet->setCellValue('M'.$row, $demande->getCreatedAt());
-            $row++;
-        }
-    
-        // créer un objet Writer pour enregistrer le document en fichier Excel
-        $writer = new Xlsx($spreadsheet);
-        $filename = 'demandes.xlsx';
-    
-        // envoyer les headers
-        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment;filename="'.$filename.'"');
-        header('Cache-Control: max-age=0');
-    
-        // envoyer le fichier Excel au client
-        $writer->save('php://output');
-        $content = ob_get_clean();
-        return new Response($content);
+#[Route('/export/excel', name: 'app_export_excel')]
+public function exportExcel(SessionInterface $session): Response
+{
+    // start output buffering
+    ob_start();
+
+    // récupérer les données de la session
+    $demandes = $session->get('demandes');
+
+    // créer un nouveau document Excel
+    $spreadsheet = new Spreadsheet();
+    $sheet = $spreadsheet->getActiveSheet();
+
+    // add border to all cells
+    $styleArray = [
+        'borders' => [
+            'allBorders' => [
+                'borderStyle' => Border::BORDER_THIN,
+                'color' => ['argb' => 'FF000000'],
+            ],
+        ],
+    ];
+
+    // ajouter les en-têtes de colonnes
+    $boldStyle = ['font' => ['bold' => true]];
+
+    // ajouter les en-têtes de colonnes
+    $sheet->setCellValue('A1', 'N° demande')->getStyle('A1')->applyFromArray($styleArray, $boldStyle);
+    $sheet->setCellValue('B1', 'Nom Client')->getStyle('B1')->applyFromArray($styleArray, $boldStyle);
+    $sheet->setCellValue('C1', 'Adresse')->getStyle('C1')->applyFromArray($styleArray, $boldStyle);
+    $sheet->setCellValue('D1', 'Ville')->getStyle('D1')->applyFromArray($styleArray, $boldStyle);
+    $sheet->setCellValue('E1', 'Code Postal')->getStyle('E1')->applyFromArray($styleArray);
+    $sheet->setCellValue('F1', 'Email')->getStyle('F1')->applyFromArray($styleArray, $boldStyle);
+    $sheet->setCellValue('G1', 'Téléphone')->getStyle('G1')->applyFromArray($styleArray, $boldStyle);
+    $sheet->setCellValue('H1', 'Date installation')->getStyle('H1')->applyFromArray($styleArray, $boldStyle);
+    $sheet->setCellValue('I1', 'Type Appareil')->getStyle('I1')->applyFromArray($styleArray, $boldStyle);
+    $sheet->setCellValue('J1', 'Nbr Appareil')->getStyle('J1')->applyFromArray($styleArray, $boldStyle);
+    $sheet->setCellValue('K1', 'Statut')->getStyle('K1')->applyFromArray($styleArray, $boldStyle);
+    $sheet->setCellValue('L1', 'Description')->getStyle('L1')->applyFromArray($styleArray, $boldStyle);
+    $sheet->setCellValue('M1', 'Date création')->getStyle('M1')->applyFromArray($styleArray, $boldStyle);
+
+    // set column widths
+    $sheet->getColumnDimension('A')->setWidth(15);
+    $sheet->getColumnDimension('B')->setWidth(15);
+    $sheet->getColumnDimension('C')->setWidth(15);
+    $sheet->getColumnDimension('D')->setWidth(15);
+    $sheet->getColumnDimension('E')->setWidth(15);
+    $sheet->getColumnDimension('F')->setWidth(15);
+    $sheet->getColumnDimension('G')->setWidth(15);
+    $sheet->getColumnDimension('H')->setWidth(15);
+    $sheet->getColumnDimension('I')->setWidth(15);
+    $sheet->getColumnDimension('J')->setWidth(15);
+    $sheet->getColumnDimension('K')->setWidth(15);
+    $sheet->getColumnDimension('L')->setWidth(15);
+    $sheet->getColumnDimension('M')->setWidth(15);
+
+
+    // ajouter les données
+    $row = 2;
+    foreach ($demandes as $demande) {
+        $sheet->setCellValue('A'.$row, $demande->getId())->getStyle('A'.$row)->applyFromArray($styleArray);
+        $sheet->setCellValue('B'.$row, $demande->getNomClient())->getStyle('B'.$row)->applyFromArray($styleArray);
+        $sheet->setCellValue('C'.$row, $demande->getAdresse())->getStyle('C'.$row)->applyFromArray($styleArray);
+        $sheet->setCellValue('D'.$row, $demande->getVille())->getStyle('D'.$row)->applyFromArray($styleArray);
+        $sheet->setCellValue('E'.$row, $demande->getCodePostal())->getStyle('E'.$row)->applyFromArray($styleArray);
+        $sheet->setCellValue('F'.$row, $demande->getEmail())->getStyle('F'.$row)->applyFromArray($styleArray);
+        $sheet->setCellValue('G'.$row, $demande->getTelephone())->getStyle('G'.$row)->applyFromArray($styleArray);
+        $sheet->setCellValue('H'.$row, $demande->getDateDisponibilite())->getStyle('H'.$row)->applyFromArray($styleArray);
+        $sheet->setCellValue('I'.$row, $demande->getTypeAppareil())->getStyle('I'.$row)->applyFromArray($styleArray);
+        $sheet->setCellValue('J'.$row, $demande->getNbrAppareil())->getStyle('J'.$row)->applyFromArray($styleArray);
+        $sheet->setCellValue('K'.$row, $demande->getStatut())->getStyle('K'.$row)->applyFromArray($styleArray);
+        $sheet->setCellValue('L'.$row, $demande->getDescription())->getStyle('L'.$row)->applyFromArray($styleArray);
+        $sheet->setCellValue('M'.$row, $demande->getCreatedAt())->getStyle('M'.$row)->applyFromArray($styleArray);
+        $row++;
     }
-    
+
+
+    // créer un objet Writer pour enregistrer le document en fichier Excel
+    $writer = new Xlsx($spreadsheet);
+    $filename = 'demandes.xlsx';
+
+    // envoyer les headers
+    header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    header('Content-Disposition: attachment;filename="'.$filename.'"');
+    header('Cache-Control: max-age=0');
+
+    // envoyer le fichier Excel au client
+    $writer->save('php://output');
+    $content = ob_get_clean();
+    return new Response($content);
+}
+
 
 }
 
