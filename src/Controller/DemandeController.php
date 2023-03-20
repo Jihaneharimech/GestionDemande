@@ -18,6 +18,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 #[Route('/demande')]
 class DemandeController extends AbstractController
@@ -166,9 +168,9 @@ class DemandeController extends AbstractController
     }
 
     #[Route('/export/csv', name: 'app_export_csv', methods: ['GET'])]
-    public function export(SessionInterface $session): Response
+    public function exportCsv(SessionInterface $session): Response
     {  
-  
+  // Retrieve data from the database or other source
   $demandes = $session->get('demandes');
     foreach ($demandes as $demande) {
         $id= $demande->getId();
@@ -214,11 +216,72 @@ class DemandeController extends AbstractController
     // Set the CSV content as the response content
     $response->setContent(ob_get_clean());
 
-
     return $response;
     
     }
 
+    #[Route('/export/excel', name: 'app_export_excel')]
+    public function exportExcel(SessionInterface $session): Response
+    {
+        // start output buffering
+        ob_start();
+    
+        // récupérer les données de la session
+        $demandes = $session->get('demandes');
+    
+        // créer un nouveau document Excel
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+    
+        // ajouter les en-têtes de colonnes
+        $sheet->setCellValue('A1', 'N° demande');
+        $sheet->setCellValue('B1', 'Nom Client');
+        $sheet->setCellValue('C1', 'Adresse');
+        $sheet->setCellValue('D1', 'Ville');
+        $sheet->setCellValue('E1', 'Code Postal');
+        $sheet->setCellValue('F1', 'Email');
+        $sheet->setCellValue('G1', 'Téléphone');
+        $sheet->setCellValue('H1', 'Date installation');
+        $sheet->setCellValue('I1', 'Type Appareil');
+        $sheet->setCellValue('J1', 'Nbr Appareil');
+        $sheet->setCellValue('K1', 'Statut');
+        $sheet->setCellValue('L1', 'Description');
+        $sheet->setCellValue('M1', 'Date création');
+    
+        // ajouter les données
+        $row = 2;
+        foreach ($demandes as $demande) {
+            $sheet->setCellValue('A'.$row, $demande->getId());
+            $sheet->setCellValue('B'.$row, $demande->getNomClient());
+            $sheet->setCellValue('C'.$row, $demande->getAdresse());
+            $sheet->setCellValue('D'.$row, $demande->getVille());
+            $sheet->setCellValue('E'.$row, $demande->getCodePostal());
+            $sheet->setCellValue('F'.$row, $demande->getEmail());
+            $sheet->setCellValue('G'.$row, $demande->getTelephone());
+            $sheet->setCellValue('H'.$row, $demande->getDateDisponibilite());
+            $sheet->setCellValue('I'.$row, $demande->getTypeAppareil());
+            $sheet->setCellValue('J'.$row, $demande->getNbrAppareil());
+            $sheet->setCellValue('K'.$row, $demande->getStatut());
+            $sheet->setCellValue('L'.$row, $demande->getDescription());
+            $sheet->setCellValue('M'.$row, $demande->getCreatedAt());
+            $row++;
+        }
+    
+        // créer un objet Writer pour enregistrer le document en fichier Excel
+        $writer = new Xlsx($spreadsheet);
+        $filename = 'demandes.xlsx';
+    
+        // envoyer les headers
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="'.$filename.'"');
+        header('Cache-Control: max-age=0');
+    
+        // envoyer le fichier Excel au client
+        $writer->save('php://output');
+        $content = ob_get_clean();
+        return new Response($content);
+    }
+    
 
 }
 
