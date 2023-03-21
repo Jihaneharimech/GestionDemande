@@ -30,16 +30,17 @@ button.btn.btncheck{
 .btnstatut{
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    font-size: 12px;
+    font-size: 14px;
     border-style: none;
     font-weight: 500;
     line-height: 1;
-    height: 30px;
+    height: 36px;
     padding: 0 15px;
     text-transform: uppercase;
     color: #fff;
     border-radius: 3px 0 0 3px;
     transform: scale(.95);
+    width: 114%;
 }
 .btnAnnul{
     background-color: #36b9cc;

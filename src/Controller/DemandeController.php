@@ -171,53 +171,53 @@ class DemandeController extends AbstractController
     #[Route('/export/csv', name: 'app_export_csv', methods: ['GET'])]
     public function exportCsv(SessionInterface $session): Response
     {  
-  // Retrieve data from the database or other source
-  $demandes = $session->get('demandes');
-    foreach ($demandes as $demande) {
-        $id= $demande->getId();
-        $nomClient= $demande->getNomClient();
-        $adresse= $demande->getAdresse();
-        $codePostal= $demande->getCodePostal();
-        $email= $demande->getEmail();
-        $telephone= $demande->getTelephone();
-        $dateDisponibilite= $demande->getDateDisponibilite();
-        $nbrAppareil= $demande->getNbrAppareil();
-        $description= $demande->getDescription();
-        $createdAt= $demande->getCreatedAt();
-        $ville= $demande->getVille();
-        $typeAppareil= $demande->getTypeAppareil();
-        $statut= $demande->getStatut();
-     $demandeList[] = [$id,$nomClient,$adresse,$ville,$codePostal,$email,$telephone,$dateDisponibilite->format('Y-m-d'),$typeAppareil,$nbrAppareil,$statut,$description,$dateDisponibilite->format('Y-m-d')];
-     }
+    // Retrieve data from the database or other source
+    $demandes = $session->get('demandes');
+        foreach ($demandes as $demande) {
+            $id= $demande->getId();
+            $nomClient= $demande->getNomClient();
+            $adresse= $demande->getAdresse();
+            $codePostal= $demande->getCodePostal();
+            $email= $demande->getEmail();
+            $telephone= $demande->getTelephone();
+            $dateDisponibilite= $demande->getDateDisponibilite();
+            $nbrAppareil= $demande->getNbrAppareil();
+            $description= $demande->getDescription();
+            $createdAt= $demande->getCreatedAt();
+            $ville= $demande->getVille();
+            $typeAppareil= $demande->getTypeAppareil();
+            $statut= $demande->getStatut();
+        $demandeList[] = [$id,$nomClient,$adresse,$ville,$codePostal,$email,$telephone,$dateDisponibilite->format('Y-m-d'),$typeAppareil,$nbrAppareil,$statut,$description,$dateDisponibilite->format('Y-m-d')];
+        }
 
-     // Define the CSV file name
-     $filename = 'exported_data_' . date('Y-m-d') . '.csv';
+        // Define the CSV file name
+        $filename = 'exported_data_' . date('Y-m-d') . '.csv';
 
-     // Create the CSV response object
-     $response = new Response();
+        // Create the CSV response object
+        $response = new Response();
 
-     // Set the content type and attachment header
-     $response->headers->set('Content-Type', 'text/csv');
-     $response->headers->set('Content-Disposition', 'attachment; filename="' . $filename . '"');
+        // Set the content type and attachment header
+        $response->headers->set('Content-Type', 'text/csv');
+        $response->headers->set('Content-Disposition', 'attachment; filename="' . $filename . '"');
 
-     // Open a file handle to create the CSV file
-     $handle = fopen('php://output', 'w');
+        // Open a file handle to create the CSV file
+        $handle = fopen('php://output', 'w');
 
-     // Write the header row to the CSV file
-     fputcsv($handle, ['N°demande', 'Nom Client', 'Adresse', 'Ville', 'Code Postal', 'Email', 'Téléphone', 'Date installation', 'Type Appareil', 'Nbr Appareil', 'Statut', 'Description', 'Date création']);
+        // Write the header row to the CSV file
+        fputcsv($handle, ['N°demande', 'Nom Client', 'Adresse', 'Ville', 'Code Postal', 'Email', 'Téléphone', 'Date installation', 'Type Appareil', 'Nbr Appareil', 'Statut', 'Description', 'Date création']);
 
-     // Write the data rows to the CSV file
-     foreach ($demandeList as $row) {
-         fputcsv($handle, $row);
-     }
+        // Write the data rows to the CSV file
+        foreach ($demandeList as $row) {
+            fputcsv($handle, $row);
+        }
 
-     // Close the file handle
-     fclose($handle);
+        // Close the file handle
+        fclose($handle);
 
-    // Set the CSV content as the response content
-    $response->setContent(ob_get_clean());
+        // Set the CSV content as the response content
+        $response->setContent(ob_get_clean());
 
-    return $response;
+        return $response;
     
     }
 

@@ -12,10 +12,11 @@
 
     <section >
     <div class="container py-2">
-     <h1>Demande N°{{ demande.id }}</h1>
+     <h1 class="h3 fs-4"  style="color: #040f39; font-weight: 500;">Demande N°{{ demande.id }}</h1>
      <div class="row mt-4">
         <div class="col-sm-8 col-md-8">
-        <div class="dataTables_length" id="dataTable_length"><label><span class="colortitle">Statut</span>
+        <div class="dataTables_length" id="dataTable_length">
+        <label><span class="colortitle">Statut</span>
 
             {{ include('demande/_changestatut.html.twig') }}
       

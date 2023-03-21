@@ -20,8 +20,13 @@ class StatutType extends AbstractType
                 'choice_label' => 'nom',
                  'expanded' => false,
                  'attr' => [
-                    'class' => 'form-control form-control-user'
-                ]
+                    'class' => 'form-select text-white btnstatut'
+                 ],
+                  'choice_attr' => function($statut, $key, $value) {
+                   return ['style' => 'background-color:'.$statut->getColor().'; color:#fff',
+                   'data-color' => $statut->getColor()
+                ];
+                    }
             ])
         ;
     }

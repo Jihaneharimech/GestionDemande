@@ -55,3 +55,23 @@
 
 })(jQuery); // End of use strict
 
+// remove select2-hidden-accessible in select statut in show demande
+$(document).ready(function() {
+  $('#statut_statut').removeClass('select2-hidden-accessible');
+});
+
+// remove select2-container--default in select statut in show demande
+$(document).ready(function() {
+  $('.statut-form .select2-container--default').remove();
+});
+
+
+//1- Update the background color of the select element when the selected option changes 
+$('.statut-form select').on('change', function() {
+  var color = $(this).find(':selected').data('color');
+  $(this).css('background-color', color);
+});
+
+//2- Set the initial background color of the select element
+var initialColor = $('.statut-form select :selected').data('color');
+$('.statut-form select').css('background-color', initialColor);
