@@ -38,7 +38,7 @@ class Demande
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: "datetime_immutable", options: ["default" => "CURRENT_TIMESTAMP"])]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'demandes')]
@@ -52,6 +52,11 @@ class Demande
 
     #[ORM\ManyToOne(inversedBy: 'demandes')]
     private ?User $manager = null;
+
+    public function __construct()
+    {
+        $this->createdAt = new \DateTimeImmutable();
+    }
 
     public function getId(): ?int
     {
@@ -213,4 +218,5 @@ class Demande
 
         return $this;
     }
+    
 }

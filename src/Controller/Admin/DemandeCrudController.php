@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use DateTimeImmutable;
 use App\Entity\Demande;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
@@ -22,7 +23,9 @@ class DemandeCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        return [
+        $createdAt = new DateTimeImmutable();
+        
+        $demande = [
             IdField::new('id')->hideOnForm(),
             TextField::new('nomClient','Nom Client'),
             EmailField::new('email','Email'),
@@ -35,8 +38,13 @@ class DemandeCrudController extends AbstractCrudController
             DateTimeField::new('dateDisponibilite','Date instalation'),
             AssociationField::new('statut','Statut'),
             TextEditorField::new('description','Description'),
-            DateTimeField::new('createdAt', 'Passée le'),
+            DateTimeField::new('createdAt', 'Passée le')
+            ->hideOnForm()
+            ->setFormTypeOption('disabled', false)
+            ->setFormTypeOption('data', $createdAt),
         ];
+
+        return $demande;
     }
     
 }
