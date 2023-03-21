@@ -12,8 +12,10 @@ use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\KeyValueStore;
 use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
@@ -54,13 +56,20 @@ class UserCrudController extends AbstractCrudController
             TelephoneField::new('telephone'),
             //PasswordField::new('password','Mot de passe'),
             //TextField::new('password')->setFormType(PasswordType::class),
-            ImageField::new('imageUser','Votre image')
+            ImageField::new('imageUser','Image utilisateur')
             ->setBasePath('uploads/users/image/')
             ->setUploadDir('public/uploads/users/image')
             ->setFormType(FileUploadType::class)
             ->setUploadedFileNamePattern('[randomhash].[extension]')
             ->setRequired(false),
             EmailField::new('email','Email'),
+            ChoiceField::new('roles', 'Roles')
+                ->setChoices([
+                    'Admin' => 'ROLE_ADMIN',
+                    'User' => 'ROLE_USER',
+                    'Manager' => 'ROLE_MANAGER',
+                ])
+                ->allowMultipleChoices(),
             Field::new('password', 'New password')->onlyOnForms()
                 ->setFormType(RepeatedType::class)
                 ->setFormTypeOptions([
