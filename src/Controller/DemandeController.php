@@ -252,7 +252,7 @@ public function exportExcel(SessionInterface $session): Response
     $sheet->setCellValue('B1', 'Nom Client')->getStyle('B1')->applyFromArray($styleArray, $boldStyle);
     $sheet->setCellValue('C1', 'Adresse')->getStyle('C1')->applyFromArray($styleArray, $boldStyle);
     $sheet->setCellValue('D1', 'Ville')->getStyle('D1')->applyFromArray($styleArray, $boldStyle);
-    $sheet->setCellValue('E1', 'Code Postal')->getStyle('E1')->applyFromArray($styleArray);
+    $sheet->setCellValue('E1', 'Code Postal')->getStyle('E1')->applyFromArray($styleArray, $boldStyle);
     $sheet->setCellValue('F1', 'Email')->getStyle('F1')->applyFromArray($styleArray, $boldStyle);
     $sheet->setCellValue('G1', 'Téléphone')->getStyle('G1')->applyFromArray($styleArray, $boldStyle);
     $sheet->setCellValue('H1', 'Date installation')->getStyle('H1')->applyFromArray($styleArray, $boldStyle);
@@ -296,7 +296,6 @@ public function exportExcel(SessionInterface $session): Response
         $sheet->setCellValue('M'.$row, $demande->getCreatedAt())->getStyle('M'.$row)->applyFromArray($styleArray);
         $row++;
     }
-
 
     // créer un objet Writer pour enregistrer le document en fichier Excel
     $writer = new Xlsx($spreadsheet);

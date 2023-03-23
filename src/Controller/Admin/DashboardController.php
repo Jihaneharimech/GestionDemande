@@ -53,5 +53,6 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Villes', 'fas fa-map', Villes::class);
         yield MenuItem::linkToCrud('Appareils', 'fas fa-camera', Appareil::class);
         yield MenuItem::linkToCrud('Statuts', 'fas fa-tasks-alt', Statut::class);
+        yield MenuItem::linkToLogout('Déconnexion', 'fa-solid fa-right-from-bracket');
     }
 }
