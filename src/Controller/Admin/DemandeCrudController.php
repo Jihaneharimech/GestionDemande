@@ -82,6 +82,7 @@ class DemandeCrudController extends AbstractCrudController
     {
         $exportToExcel = Action::new('Export')
         ->linkToCrudAction('exportToExcel')
+        ->setIcon('fa fa-download')
         ->createAsGlobalAction();  
   
 
