@@ -11,6 +11,53 @@
          {% endblock %}
 
         {% block javascripts %}
+       <script>
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth() + 1;
+    const day = currentDate.getDate();
+    const hours = currentDate.getHours();
+    const minutes = currentDate.getMinutes();
+    const formattedDate = `${day}/${month}/${year} ${hours}:${minutes}`;
+
+    const eventSource = new EventSource("{{ mercure('https://example.com/books/1')|escape('js') }}");
+    eventSource.onmessage = event => {
+        const message = (JSON.parse(event.data)).status;
+        const idVilleDemande = (JSON.parse(event.data)).idVilleDemande; // Récupérer la variable de id ville de la demande qui a ete creer par le manager
+        const userCity = '{{ app.user.ville.id }}';
+
+        if (idVilleDemande == userCity) { //Verifier si utilisateur connecter a la meme ville que la demande
+        const messages = JSON.parse(localStorage.getItem("messages")) || [];
+        messages.push({
+            date: formattedDate,
+            message: message
+        });
+        localStorage.setItem("messages", JSON.stringify(messages));
+        updateMessages();
+        } 
+    };
+
+    function updateMessages() {
+        const messages = JSON.parse(localStorage.getItem("messages")) || [];
+        const messageContainer = document.getElementById("message");
+        messageContainer.innerHTML = "";
+        messages.forEach(msg => {
+            messageContainer.innerHTML += "<a class='dropdown-item d-flex align-items-center' href='#'><div class='mr-3'><div class='icon-circle bg-primary'><i class='fas fa-file-alt text-white'></i></div></div><div><div class='small text-gray-500'>"+msg.date+"</div>"+msg.message+"</div></a>";
+        });
+
+        // Update the counter element
+        const counterNotifElement = document.getElementById("counterNotif");
+        counterNotifElement.textContent = messages.length;
+        if (messages.length > 0) {
+            counterNotifElement.style.display = "inline-block";
+        } else {
+            counterNotifElement.style.display = "none";
+        }
+    }   
+    window.addEventListener("load", updateMessages);
+</script>
+
+
             {{ encore_entry_script_tags('app') }}
        {% endblock %}
     </head>
@@ -170,56 +217,45 @@
                             </div>
                         </li>
 
-                        <!-- Nav Item - Alerts -->
-                        <li class="nav-item dropdown no-arrow mx-1">
-                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-bell fa-fw"></i>
-                                <!-- Counter - Alerts -->
-                                <span class="badge badge-danger badge-counter">3+</span>
-                            </a>
-                            <!-- Dropdown - Alerts -->
-                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                aria-labelledby="alertsDropdown">
-                                <h6 class="dropdown-header">
-                                    Alerts Center
-                                </h6>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="mr-3">
-                                        <div class="icon-circle bg-primary">
-                                            <i class="fas fa-file-alt text-white"></i>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="small text-gray-500">December 12, 2019</div>
-                                        <span class="font-weight-bold">A new monthly report is ready to download!</span>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="mr-3">
-                                        <div class="icon-circle bg-success">
-                                            <i class="fas fa-donate text-white"></i>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="small text-gray-500">December 7, 2019</div>
-                                        $290.29 has been deposited into your account!
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="mr-3">
-                                        <div class="icon-circle bg-warning">
-                                            <i class="fas fa-exclamation-triangle text-white"></i>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="small text-gray-500">December 2, 2019</div>
-                                        Spending Alert: We've noticed unusually high spending for your account.
-                                    </div>
-                                </a>
-                                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
-                            </div>
-                        </li>
+
+
+                    <!-- Nav Item - Alerts -->
+                    <li class="nav-item dropdown no-arrow mx-1">
+                    <div class="dropdown">
+                    <a class="nav-link dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-bell fa-fw"></i>
+                            <!-- Counter - Alerts -->
+                            <span id="counterNotif" class="badge badge-danger badge-counter"></span>
+                          
+                    </a>
+                    <!-- Dropdown - Alerts -->
+                    <ul class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="dropdownMenuButton1">
+                        <h6 class="dropdown-header">Notifications</h6>
+                                   <span id="message"></span>
+                            <a class="dropdown-item text-center small text-gray-500" href="#">Afficher toutes les notifications</a>
+                    </ul>
+                    </div>
+                    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                         <!-- Nav Item - Messages -->
                         <li class="nav-item dropdown no-arrow mx-1">
