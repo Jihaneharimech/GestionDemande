@@ -149,8 +149,6 @@ public function new(Request $request, DemandeRepository $demandeRepository, HubI
 
     if ($form->isSubmitted() && $form->isValid()) {
         $idVilleDemande = $form->get('ville')->getData()->getId();
-        $users = $this->entityManager->getRepository(User::class)->findBy(['ville' => $idVilleDemande]);
-        $LoginUser = $this->getUser();
             $update = new Update(
                 'https://example.com/books/1',
                 json_encode(['status' => 'Une nouvelle demande a été ajoutée par '.$this->getUser()->getName(),
@@ -158,7 +156,9 @@ public function new(Request $request, DemandeRepository $demandeRepository, HubI
                 ])
                  );
                 $hub->publish($update);
-         
+        $demandeRepository->save($demande, true);
+        $this->addFlash('notice', 'Votre demande a été enregistrée');     
+        return $this->redirectToRoute('app_demande_index', [], Response::HTTP_SEE_OTHER);
     }
 
     return $this->renderForm('demande/new.html.twig', [
