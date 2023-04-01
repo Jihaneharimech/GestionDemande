@@ -7,6 +7,7 @@ use App\Entity\Statut;
 use DateTimeImmutable;
 use App\Entity\Demande;
 use App\Form\StatutType;
+use App\Form\AssigneType;
 use App\Form\DemandeType;
 use App\Classe\CustomSearch;
 use App\Form\CustomSearchType;
@@ -369,5 +370,26 @@ public function new(Request $request, DemandeRepository $demandeRepository, HubI
         return new Response($content);
     }
 
+    #[Route('/assigne/{id}', name: 'app_demande_show_assigne', methods: ['GET','POST'])]
+    public function assigne(Demande $demande,Request $request,): Response
+    {      
+        $formAssigne = $this->createForm(AssigneType::class, $demande);
+        $formAssigne->handleRequest($request);    
+    
+        if ($formAssigne->isSubmitted() && $formAssigne->isValid()) {
+            $demande = $formAssigne->getData();
+            foreach ($demande->getUsers() as $user) {
+                $demande->addUser($user);
+            }
+            $this->entityManager->persist($demande);
+            $this->entityManager->flush(); 
+            return $this->redirectToRoute('app_demande_index');
+        }
+    
+        return $this->render('demande/edit_assigne.html.twig', [
+            'formAssigne' => $formAssigne,
+        ]);
+    }
+    
 }
 

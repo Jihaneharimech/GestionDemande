@@ -50,9 +50,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'manager', targetEntity: Demande::class)]
     private Collection $demandes;
 
+    #[ORM\ManyToMany(targetEntity: Demande::class, mappedBy: 'users')]
+    private Collection $demandesuser;
+
     public function __construct()
     {
         $this->demandes = new ArrayCollection();
+        $this->demandesuser = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -218,6 +222,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             if ($demande->getManager() === $this) {
                 $demande->setManager(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Demande>
+     */
+    public function getDemandesuser(): Collection
+    {
+        return $this->demandesuser;
+    }
+
+    public function addDemandesuser(Demande $demandesuser): self
+    {
+        if (!$this->demandesuser->contains($demandesuser)) {
+            $this->demandesuser->add($demandesuser);
+            $demandesuser->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDemandesuser(Demande $demandesuser): self
+    {
+        if ($this->demandesuser->removeElement($demandesuser)) {
+            $demandesuser->removeUser($this);
         }
 
         return $this;

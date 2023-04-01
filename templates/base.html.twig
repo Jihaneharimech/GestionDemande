@@ -24,6 +24,7 @@
     eventSource.onmessage = event => {
         const message = (JSON.parse(event.data)).status;
         const idVilleDemande = (JSON.parse(event.data)).idVilleDemande; // Récupérer la variable de id ville de la demande qui a ete creer par le manager
+        '{% if app.user %}'
         const userCity = '{{ app.user.ville.id }}';
 
         if (idVilleDemande == userCity) { //Verifier si utilisateur connecter a la meme ville que la demande
@@ -35,6 +36,7 @@
         localStorage.setItem("messages", JSON.stringify(messages));
         updateMessages();
         } 
+        '{% endif %}'
     };
 
     function updateMessages() {

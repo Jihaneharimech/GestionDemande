@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\DemandeRepository;
@@ -53,9 +55,13 @@ class Demande
     #[ORM\ManyToOne(inversedBy: 'demandes')]
     private ?User $manager = null;
 
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'demandesuser')]
+    private Collection $users;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -215,6 +221,30 @@ class Demande
     public function setManager(?User $manager): self
     {
         $this->manager = $manager;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        $this->users->removeElement($user);
 
         return $this;
     }

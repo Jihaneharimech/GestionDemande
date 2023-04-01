@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Assigne{% endblock %}
+
+{% block content %}
+
+  <div class="container py-5">
+    <div class="row">
+      <div class="col-lg-8 mx-auto">
+        <div class="card mb-4">
+            <div class="card-body">
+              Ajouter
+              <div class="row">
+                {{form(formAssigne)}}
+         </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
