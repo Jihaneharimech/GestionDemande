@@ -117,7 +117,6 @@
                 <th class="styleTitleList">Date création</th>
                 <th class="styleTitleList">Assigné</th>
                 <th class="styleTitleList">Actions</th>
- <th class="styleTitleList">Actions</th>
             </tr>
         </thead>
         <tbody class="tbody-d">
@@ -136,12 +135,55 @@
                 <td>{{ demande.statut }}</td>
                 <td>{{ demande.description |raw }}</td>
                 <td>{{ demande.createdAt ? demande.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                {% for user in demande.users %}
-                   <li> {{user.name}}</li>
-                    {% endfor %}
-                <a href="{{ path('app_demande_show_assigne', {'id': demande.id}) }}">
-                <img class="imgIcon" src="{{ asset('assets/imagesTemplete/icons8-add-user-32.png') }}" alt="Assigner"></a></td>
+                <td style="text-align: center;vertical-align: middle;">  
+                    {% if app.user.isManager() and demande.users|length > 0 %}  
+                      {% if demande.users|length > 0 %}   
+                        <div class="dropdown no-arrow">
+                          <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLinkUsersm" data-bs-toggle="dropdown" aria-expanded="false">
+                            <div class="nav-item text-end title-filtrer">
+                                Voir les installateur
+                            </div>
+                          </a>
+                          <ul class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="dropdownMenuLinkUsersm      ">
+                            {% for user in demande.users %}
+                            <a class="dropdown-item">
+                                <li> {{user.name}}</li>
+                            </a>
+                            {% endfor %}
+                          </ul>
+                        </div>                       
+                      {% else %}
+                         Pas d'installateur
+                     {% endif %}
+                    {% endif %}
+
+                    {% set nb_role = app.user.getRoles()|length %}
+                    {% if (app.user.isUser()) and (nb_role < 2) %}   
+                     {% if demande.users|length > 0 %}
+                     <div class="dropdown no-arrow">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLinkUsers" data-bs-toggle="dropdown" aria-expanded="false">
+                            <div class="nav-item text-end title-filtrer">
+                                <img class="imgIcon" src="{{ asset('assets/imagesTemplete/icons8-add-user-32.png') }}" alt="Assigner">
+                            </div>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="dropdownMenuLinkUsers">
+                            {% for user in demande.users %}
+                            <a class="dropdown-item">
+                                <li> {{user.name}}</li>
+                            </a>
+                            {% endfor %}
+                        <hr class="sidebar-divider d-none d-md-block">
+                            <a class="dropdown-item" href="{{ path('app_demande_show_assigne', {'id': demande.id}) }}">
+                            <i class="fas fa-user-plus fa-sm fa-fw mr-2 text-gray-400"></i>Ajouter Installateur</a>
+                        </ul>
+                     </div>                       
+                    {% else %}
+                         Pas d'installateur
+                            <a href="{{ path('app_demande_show_assigne', {'id': demande.id}) }}">
+                            <i class="fas fa-user-plus fa-sm fa-fw mr-2 text-gray-400"></i>Ajouter Installateur</a>
+                     {% endif %}
+                    {% endif %}
+                </td>
                 <td style="text-align: center;vertical-align: middle;">
                     <a href="{{ path('app_demande_show_statut', {'id': demande.id}) }}">
                     <img class="imgIcon" src="{{ asset('assets/imagesTemplete/icons8-eye-48.png') }}" alt="voir"></a></a>
@@ -150,9 +192,6 @@
                     <img class="imgIcon" src="{{ asset('assets/imagesTemplete/icons8-pencil-48.png') }}" alt="Editer"></a></a>
                         {% endif %}
                 </td>
-              <td>  {% for user in demande.users %}
-                    {{user.name}}
-                    {% endfor %}</td>
             </tr>
         {% else %}
             <tr>
