@@ -5,11 +5,14 @@
 {% block content %}
 
   <div class="container py-5">
+    {% for notice in app.flashes('notice') %}
+      <div class="alert alert-info"> {{ notice }}</div>
+  {% endfor %}
     <div class="row">
       <div class="col-lg-8 mx-auto">
         <div class="card mb-4">
             <div class="card-body">
-              Ajouter
+             <h1> Assigné à</h1>
               <div class="row">
                 {{form(formAssigne)}}
          </div>

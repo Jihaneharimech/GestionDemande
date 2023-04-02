@@ -56,6 +56,24 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->save($user, true);
     }
 
+
+     /**
+     * @return Users[] Returns an array of user objects WHERE the idville of demande like the idville of user and the role od the user should be ROLE_USER
+     */
+    public function findByVille($ville): array
+    {
+        return $this->createQueryBuilder('u')
+            ->where('u.roles LIKE :roles')
+            ->andWhere('u.ville = :ville')
+            ->setParameter('ville', $ville)
+            ->setParameter('roles', '%ROLE_USER%')
+            ->orderBy('u.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+
 //    /**
 //     * @return User[] Returns an array of User objects
 //     */

@@ -13,6 +13,7 @@ use App\Classe\CustomSearch;
 use App\Form\CustomSearchType;
 use App\Form\CustomSearchAllType;
 use App\Repository\DemandeRepository;
+use App\Repository\UserRepository;
 use Symfony\Component\Mercure\Update;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -130,43 +131,43 @@ class DemandeController extends AbstractController
 
 
     #[Route('/ajout', name: 'app_demande_new', methods: ['GET', 'POST'])]
-public function new(Request $request, DemandeRepository $demandeRepository, HubInterface $hub): Response
-{
-    $demande = new Demande();
-    $form = $this->createForm(DemandeType::class, $demande);
-    $form->handleRequest($request);
+    public function new(Request $request, DemandeRepository $demandeRepository, HubInterface $hub): Response
+    {
+        $demande = new Demande();
+        $form = $this->createForm(DemandeType::class, $demande);
+        $form->handleRequest($request);
 
-    $createdAt = new DateTimeImmutable();
-    $demande->setCreatedAt($createdAt);
+        $createdAt = new DateTimeImmutable();
+        $demande->setCreatedAt($createdAt);
 
-    $manager = $this->getUser();
-    $demande->setManager($manager);
+        $manager = $this->getUser();
+        $demande->setManager($manager);
 
-    // Recuperer le 1ere statut A faire
-    $statuts = $this->entityManager->getRepository(Statut::class)->findById(1);
-    foreach ($statuts as $statut) {
-        $demande->setStatut($statut);
+        // Recuperer le 1ere statut A faire
+        $statuts = $this->entityManager->getRepository(Statut::class)->findById(1);
+        foreach ($statuts as $statut) {
+            $demande->setStatut($statut);
+        }
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $idVilleDemande = $form->get('ville')->getData()->getId();
+                $update = new Update(
+                    'https://example.com/books/1',
+                    json_encode(['status' => 'Une nouvelle demande a été ajoutée par '.$this->getUser()->getName(),
+                    'idVilleDemande' => $idVilleDemande              
+                    ])
+                    );
+                    $hub->publish($update);
+            $demandeRepository->save($demande, true);
+            $this->addFlash('notice', 'Votre demande a été enregistrée');     
+            return $this->redirectToRoute('app_demande_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('demande/new.html.twig', [
+            'demande' => $demande,
+            'form' => $form,
+        ]);
     }
-
-    if ($form->isSubmitted() && $form->isValid()) {
-        $idVilleDemande = $form->get('ville')->getData()->getId();
-            $update = new Update(
-                'https://example.com/books/1',
-                json_encode(['status' => 'Une nouvelle demande a été ajoutée par '.$this->getUser()->getName(),
-                'idVilleDemande' => $idVilleDemande              
-                ])
-                 );
-                $hub->publish($update);
-        $demandeRepository->save($demande, true);
-        $this->addFlash('notice', 'Votre demande a été enregistrée');     
-        return $this->redirectToRoute('app_demande_index', [], Response::HTTP_SEE_OTHER);
-    }
-
-    return $this->renderForm('demande/new.html.twig', [
-        'demande' => $demande,
-        'form' => $form,
-    ]);
-}
 
 
     #[Route('/{id}', name: 'app_demande_show', methods: ['GET'])]
@@ -371,9 +372,14 @@ public function new(Request $request, DemandeRepository $demandeRepository, HubI
     }
 
     #[Route('/assigne/{id}', name: 'app_demande_show_assigne', methods: ['GET','POST'])]
-    public function assigne(Demande $demande,Request $request,): Response
+    public function assigne(UserRepository $userRepository,Demande $demande,Request $request,): Response
     {      
-        $formAssigne = $this->createForm(AssigneType::class, $demande);
+        $idVille = $demande->getVille()->getId();
+        $users= $userRepository->findByVille($idVille);
+       
+        $formAssigne = $this->createForm(AssigneType::class, $demande, [
+            'users_choices' => $users,
+        ]);
         $formAssigne->handleRequest($request);    
     
         if ($formAssigne->isSubmitted() && $formAssigne->isValid()) {
@@ -383,11 +389,12 @@ public function new(Request $request, DemandeRepository $demandeRepository, HubI
             }
             $this->entityManager->persist($demande);
             $this->entityManager->flush(); 
-            return $this->redirectToRoute('app_demande_index');
+            $this->addFlash('notice', 'Assigne(s) a été enregistré');  
+            // return $this->redirectToRoute('app_demande_index');
         }
     
         return $this->render('demande/edit_assigne.html.twig', [
-            'formAssigne' => $formAssigne,
+            'formAssigne' => $formAssigne->createView(),
         ]);
     }
     

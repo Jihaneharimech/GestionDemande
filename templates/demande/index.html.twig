@@ -117,6 +117,7 @@
                 <th class="styleTitleList">Date création</th>
                 <th class="styleTitleList">Assigné</th>
                 <th class="styleTitleList">Actions</th>
+ <th class="styleTitleList">Actions</th>
             </tr>
         </thead>
         <tbody class="tbody-d">
@@ -135,14 +136,23 @@
                 <td>{{ demande.statut }}</td>
                 <td>{{ demande.description |raw }}</td>
                 <td>{{ demande.createdAt ? demande.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td><a href="{{ path('app_demande_show_assigne', {'id': demande.id}) }}">
-                <img src="{{ asset('assets/imagesTemplete/icons8-add-user-32.png') }}" alt="Assigner"></a></td>
                 <td>
-                    <a href="{{ path('app_demande_show_statut', {'id': demande.id}) }}"><i class="fa-solid fa-eye"></i></a>
+                {% for user in demande.users %}
+                   <li> {{user.name}}</li>
+                    {% endfor %}
+                <a href="{{ path('app_demande_show_assigne', {'id': demande.id}) }}">
+                <img class="imgIcon" src="{{ asset('assets/imagesTemplete/icons8-add-user-32.png') }}" alt="Assigner"></a></td>
+                <td style="text-align: center;vertical-align: middle;">
+                    <a href="{{ path('app_demande_show_statut', {'id': demande.id}) }}">
+                    <img class="imgIcon" src="{{ asset('assets/imagesTemplete/icons8-eye-48.png') }}" alt="voir"></a></a>
                         {% if app.user.isManager() %}
-                    <a href="{{ path('app_demande_edit', {'id': demande.id}) }}"><i class="fa-solid fa-pen"></i></a>
+                    <a href="{{ path('app_demande_edit', {'id': demande.id}) }}">
+                    <img class="imgIcon" src="{{ asset('assets/imagesTemplete/icons8-pencil-48.png') }}" alt="Editer"></a></a>
                         {% endif %}
                 </td>
+              <td>  {% for user in demande.users %}
+                    {{user.name}}
+                    {% endfor %}</td>
             </tr>
         {% else %}
             <tr>

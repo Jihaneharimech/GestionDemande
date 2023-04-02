@@ -14,11 +14,13 @@ class AssigneType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $usersChoices = $options['users_choices'] ?? [];
         $builder
         ->add('users', EntityType::class, [
             'label' => false,
             'required' => false,
             'class' => User::class,
+            'choices' => $usersChoices,
             'choice_label' => 'name',
              'multiple' => true,
              'expanded' => false,
@@ -40,7 +42,7 @@ class AssigneType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-     
+        $resolver->setRequired('users_choices');
         $resolver->setDefaults([
             // Configure your form options here
             'data_class' => Demande::class,
